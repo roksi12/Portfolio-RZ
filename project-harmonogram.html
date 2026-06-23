@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Waste Collection Schedule — Case Study</title>
+<link rel="icon" type="image/svg+xml" href="assets/brand/favicon-rz.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FBFAF8;
+    --ink:#2F2F2F;
+    --red:#B12A35;
+    --burgundy:#8B1F28;
+    --olive:#A99A2A;
+    --olive-soft:#F5E2A3;
+    --peach:#E8893E;
+    --sky:#F2D4DE;
+    --footer:#D7D1A2;
+    --paper:#FFFBF1;
+    --soft-band:#E9E6EE;
+    --display:'DM Serif Display', 'Bricolage Grotesque', serif;
+    --body:'DM Sans', system-ui, -apple-system, sans-serif;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+
+  .nav{
+    max-width:none;
+    margin:0;
+    padding:14px 48px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:32px;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:transparent;
+    transition: background .2s ease, box-shadow .2s ease, padding .2s ease;
+  }
+  .nav-inner{
+    max-width:var(--maxw);
+    margin:0 auto;
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:32px;
+  }
+  .nav.scrolled{
+    background:rgba(255,255,255,.96);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 2px 16px -8px rgba(47,47,47,.18);
+  }
+  .logo{height:42px;display:inline-flex;align-items:center;cursor:pointer;transition:opacity .15s}
+  .logo:hover{opacity:.75}
+  .logo img{height:100%;width:auto}
+  .nav-links{display:flex;gap:40px;align-items:center}
+  .nav-link{font-size:15px;font-weight:500;color:var(--ink);text-decoration:none;cursor:pointer;transition:color .15s}
+  .nav-link:hover{color:var(--red)}
+  .nav-link.active{color:var(--red)}
+  .lang-toggle{
+    margin-left:14px;
+    width:40px;height:40px;
+    border-radius:50%;
+    border:1.5px solid var(--red);
+    background:transparent;
+    color:var(--red);
+    font-weight:700;font-size:12px;letter-spacing:.06em;
+    cursor:pointer;
+    display:inline-grid;place-items:center;
+    transition:background .15s, color .15s, transform .15s;
+    font-family:var(--body);
+    padding:0;
+  }
+  .lang-toggle:hover{background:var(--red);color:var(--bg);transform:translateY(-1px)}
+
+  .ph{
+    max-width:var(--maxw);
+    margin:24px auto 0;
+    padding:32px 48px 56px;
+    display:grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap:64px;
+    align-items:center;
+  }
+  .ph-text h1{font-family:var(--display);font-weight:400;font-size:54px;line-height:1.02;margin:0 0 18px;color:var(--ink);letter-spacing:-0.01em}
+  .ph-tags{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px;padding:0;list-style:none}
+  .ph-tag{font-size:12.5px;padding:5px 11px;border-radius:999px;background:#E9E6EE;color:var(--red);font-weight:500}
+  .ph-meta{margin:0 0 28px;padding:0;display:flex;flex-direction:column;gap:6px}
+  .ph-meta > div{margin:0;padding:0}
+  .ph-meta dd{margin:0;padding:0;font-size:14px;color:#3a3a3a;text-align:left}
+  .ph-meta dd strong{color:var(--ink);font-weight:700;margin-right:4px}
+  .ph-text p{font-size:16px;margin:0 0 28px;color:#3a3a3a;max-width:520px}
+  .ph-cta{display:flex;gap:14px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 22px;border-radius:999px;background:var(--red);color:#fff;font-weight:600;font-size:14.5px;border:none;cursor:pointer;text-decoration:none;transition:transform .15s, background .15s, box-shadow .15s}
+  .btn:hover{background:var(--burgundy);transform:translateY(-1px);box-shadow:0 12px 24px -12px rgba(177,42,53,.4)}
+  .btn.ghost{background:transparent;color:var(--red);border:1.5px solid var(--red)}
+  .btn.ghost:hover{background:rgba(177,42,53,.06);color:var(--burgundy)}
+
+  .ph-art{aspect-ratio:1/1;border-radius:24px;background:repeating-linear-gradient(135deg, rgba(47,47,47,.06) 0 14px, rgba(47,47,47,.02) 14px 28px),var(--olive-soft);border:1px dashed rgba(47,47,47,.22);display:grid;place-items:center;color:rgba(47,47,47,.55);font-family: ui-monospace, monospace;font-size:12.5px;text-align:center;padding:24px;overflow:hidden}
+  .ph-art.has-img{
+    aspect-ratio:auto;
+    background:none;
+    border:none;
+    padding:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .ph-art img{
+    width:auto;
+    height:auto;
+    max-width:100%;
+    max-height:560px;
+    object-fit:contain;
+    display:block;
+  }
+
+  .strip{background:#ffffff;padding:40px 24px;margin:0}
+  .strip-inner{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns: repeat(6, 1fr);gap:18px}
+  .phone{aspect-ratio: 9/19;border-radius:24px;background:#FFFBF1;border:1.5px solid rgba(47,47,47,.18);display:grid;place-items:center;color:rgba(47,47,47,.45);font-family: ui-monospace, monospace;font-size:12px;overflow:hidden}
+  .phone.has-img{
+    background:transparent;border:none;padding:0;border-radius:0;
+    aspect-ratio: 567/1176;
+    display:block;
+  }
+  .phone.has-img img{
+    width:100%;height:100%;
+    object-fit:contain;
+    display:block;
+    image-rendering:auto;
+    image-rendering:-webkit-optimize-contrast;
+  }nt-size:10.5px;text-align:center;padding:12px;overflow:hidden}
+
+  .problem{background:var(--soft-band);padding:60px 24px}
+  .problem-inner{max-width:760px;margin:0 auto;text-align:center}
+  .problem-label{
+    font-size:17px;
+    font-weight:700;
+    color:var(--ink);
+    margin:18px 0 10px;
+    text-align:center;
+  }
+  .problem-desc{
+    max-width:760px;
+    margin:0 auto;
+    text-align:center;
+    font-size:14.5px;
+    color:#3a3a3a;
+    line-height:1.7;
+  }
+  .problem h2{font-family:var(--display);font-size:30px;color:var(--red);margin:0 0 22px;font-weight:400;line-height:1.15}
+  .problem p{font-size:14.5px;color:#3a3a3a;line-height:1.7;max-width:640px;margin:0 auto}
+
+  .phasenav{max-width:var(--maxw);margin:0 auto;padding:36px 48px 0;display:flex;justify-content:center;gap:34px;font-size:13px;font-weight:500;color:rgba(47,47,47,.5);letter-spacing:.04em;text-transform:uppercase}
+  .phasenav a{text-decoration:none;color:inherit;cursor:pointer;transition:color .15s}
+  .phasenav a:hover{color:var(--red)}
+
+  .section{max-width:var(--maxw);margin:0 auto;padding:48px 48px 24px}
+  .section h2{font-family:var(--display);font-size:38px;color:var(--ink);margin:0 0 28px;font-weight:400;letter-spacing:-0.005em}
+  .section h3{font-size:18px;color:var(--ink);margin:32px 0 12px;font-weight:600}
+  .section h4{font-size:16px;color:var(--ink);margin:24px 0 10px;font-weight:600}
+  .section p, .section li{font-size:14.5px;color:#3a3a3a;line-height:1.7;max-width:780px}
+  .ol-circle{counter-reset: step;list-style:none;padding:0;margin:18px 0}
+  .ol-circle > li{counter-increment: step;position:relative;padding-left:36px;margin-bottom:10px;font-weight:600;color:var(--red);font-size:16px}
+  .ol-circle > li::before{content: counter(step) ".";position:absolute;left:0;top:0;color:var(--red);font-weight:700;font-size:16px}
+  .ol-circle p{color:#3a3a3a;font-weight:400;font-size:14.5px;margin:4px 0 0}
+
+  .cards{display:grid;gap:14px;margin:24px 0 8px}
+  .cards-3{grid-template-columns:repeat(3, 1fr)}
+  .cards-4{grid-template-columns:repeat(4, 1fr)}
+  .card{background:var(--paper);border:1px solid rgba(47,47,47,.1);border-radius:18px;padding:18px 18px 20px}
+  .card h5{font-size:13px;font-weight:600;color:var(--red);text-transform:uppercase;letter-spacing:.05em;margin:0 0 8px}
+  .card p{font-size:13px;color:#3a3a3a;line-height:1.55;margin:0;max-width:none}
+
+  .ph-block{border-radius:18px;background:repeating-linear-gradient(135deg, rgba(47,47,47,.05) 0 12px, rgba(47,47,47,.02) 12px 24px),#f3eedf;border:1px dashed rgba(47,47,47,.18);display:grid;place-items:center;color:rgba(47,47,47,.5);font-family: ui-monospace, monospace;font-size:12px;padding:24px;text-align:center;margin:18px 0;min-height:240px}
+  .ph-block.tall{min-height:360px}
+  .ph-block.full{min-height:480px}
+  .ph-block.has-img{background:none;border:none;padding:0}
+  .ph-block.has-img img{width:100%;border-radius:18px}
+  .ph-block.sketch{background:#fff;border:1px solid rgba(47,47,47,.1);padding:24px;border-radius:18px}
+  .ph-block.sketch img{width:100%;display:block;border-radius:0}
+
+  .competitors{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;margin:14px 0 8px}
+  .comp-item{display:flex;flex-direction:column;align-items:center;gap:8px;width:64px}
+  .comp{width:56px;height:56px;border-radius:14px;background:#1f2937;color:#fff;display:grid;place-items:center;font-weight:700;font-size:18px;font-family:var(--display);overflow:hidden}
+  .comp.has-img{background:#000;padding:0}
+  .comp.has-img img{width:100%;height:100%;object-fit:contain;display:block}
+  .comp-name{font-size:11.5px;line-height:1.25;color:#3a3a3a;text-align:center}
+
+  .swatches{display:grid;grid-template-columns:repeat(3,1fr);gap:18px 24px;margin:16px 0 8px;max-width:none}
+  .logo-icons{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:16px 0 8px}
+  .logo-icons img{width:88px;height:88px;border-radius:16px;display:block}
+  .sw-item{display:flex;align-items:center;gap:10px}
+  .sw{width:40px;height:40px;flex-shrink:0;border-radius:10px;border:1px solid rgba(47,47,47,.08)}
+  .sw-name{font-size:12.5px;line-height:1.25;color:#3a3a3a}
+
+  .persona{display:grid;grid-template-columns: 220px 1fr;gap:24px;background:var(--paper);border:1px solid rgba(47,47,47,.1);border-radius:20px;padding:20px;margin:16px 0}
+  .persona .face{width:100%;aspect-ratio:1/1;border-radius:14px;background:repeating-linear-gradient(135deg, rgba(47,47,47,.06) 0 12px, rgba(47,47,47,.02) 12px 24px),#F2D4DE;border:1px dashed rgba(47,47,47,.2);display:grid;place-items:center;font-family:ui-monospace, monospace;font-size:11px;color:rgba(47,47,47,.55);padding:10px;text-align:center}
+  .persona h3{margin:0 0 6px;font-size:18px}
+  .persona .meta{font-size:13px;color:rgba(47,47,47,.55);margin-bottom:10px}
+  .persona p{font-size:13.5px;margin:0 0 10px}
+  .persona-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px}
+  .persona-grid > div{background:#FAF7EE;border-radius:12px;padding:12px 14px;border:1px solid rgba(47,47,47,.08)}
+  .persona-grid h5{font-size:11px;color:var(--red);text-transform:uppercase;letter-spacing:.05em;margin:0 0 5px}
+  .persona-grid p{font-size:12.5px;line-height:1.55;color:#3a3a3a;margin:0}
+
+  .define-band{background:var(--soft-band);padding:60px 24px;text-align:center}
+  .define-band h2{font-family:var(--display);font-size:32px;margin:0 0 14px;color:var(--ink);font-weight:400;line-height:1.2;max-width:840px;margin-inline:auto}
+  .define-band .accent{color:var(--red)}
+
+  .check-list{list-style:none;padding:0;margin:12px 0}
+  .check-list li{padding-left:30px;position:relative;margin-bottom:10px;font-size:14.5px}
+  .check-list li::before{content:"";position:absolute;left:0;top:6px;width:14px;height:14px;border-radius:50%;background:var(--red)}
+  .check-list li::after{content:"✓";position:absolute;left:3px;top:3px;color:#fff;font-size:10px;font-weight:700}
+
+  .final{background:#ffffff;padding:60px 24px 80px;text-align:center}
+  .final h2{font-family:var(--display);font-size:34px;margin:0 0 22px;color:var(--ink);font-weight:400}
+  .final .phone-final{width:240px;margin:14px auto 22px;aspect-ratio: 9/19;border-radius:28px;background:#FFFBF1;border:1.5px solid rgba(47,47,47,.18);display:grid;place-items:center;color:rgba(47,47,47,.45);font-family:ui-monospace,monospace;font-size:11px;text-align:center;padding:12px}
+  .final .phone-final.has-img{
+    background:none;
+    border:none;
+    border-radius:0;
+    padding:0;
+    width:auto;
+    aspect-ratio:auto;
+    max-width:280px;
+    max-height:540px;
+    margin:14px auto 40px;
+  }
+  .final .phone-final.has-img img{width:100%;height:auto;display:block}
+
+  footer{background:var(--footer);padding:28px 48px;display:flex;align-items:center;justify-content:space-between;gap:24px;position:relative}
+  footer .copyright{font-size:13.5px;color:var(--ink);opacity:.7}
+  .foot-info{display:flex;flex-direction:column;gap:10px;z-index:1}
+  .foot-contact{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:13.5px}
+  .foot-link{display:inline-flex;align-items:center;gap:7px;color:var(--ink);text-decoration:none;transition:color .15s}
+  .foot-link:hover{color:var(--red)}
+  .foot-link svg{width:15px;height:15px;opacity:.85;flex-shrink:0}
+  .copy-btn{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:7px;border:1px solid rgba(47,47,47,.22);background:transparent;color:var(--ink);cursor:pointer;padding:0;margin-left:-4px;transition:background .15s, color .15s, border-color .15s}
+  .copy-btn:hover{background:var(--red);color:#fff;border-color:var(--red)}
+  .copy-btn.copied{background:#1F8A5B;border-color:#1F8A5B;color:#fff}
+  .copy-btn svg{width:13px;height:13px}
+  footer .foot-logo{height:36px;color:var(--ink);position:absolute;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;cursor:pointer;transition: opacity .15s;text-decoration:none}
+  footer .foot-logo:hover{opacity:.75}
+  footer .foot-logo img{height:100%;width:auto;display:block}
+  .socials{display:flex;gap:12px}
+  .socials a{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--red);background:var(--red);color:#fff;display:grid;place-items:center;cursor:pointer;transition:transform .15s}
+  .socials a:hover{transform:translateY(-2px)}
+  .socials svg{width:14px;height:14px}
+
+  @media (max-width:980px){
+    .nav{padding:18px 24px;flex-wrap:wrap;gap:18px}
+    .nav-links{gap:22px}
+    .ph{grid-template-columns:1fr;gap:24px;padding:16px 24px 40px}
+    .ph-text h1{font-size:40px}
+    .strip-inner{grid-template-columns:repeat(2,1fr)}
+    .swatches{grid-template-columns:repeat(2,1fr)}
+    .phasenav{padding:24px 24px 0;gap:18px;flex-wrap:wrap}
+    .section{padding:32px 24px 20px}
+    .section h2{font-size:30px}
+    .cards-3, .cards-4{grid-template-columns:1fr}
+    .persona{grid-template-columns:1fr}
+    .persona-grid{grid-template-columns:1fr}
+    footer{flex-direction:column;text-align:center}
+    .foot-info{align-items:center}
+    .foot-contact{justify-content:center}
+    footer .foot-logo{position:static;transform:none}
+  }
+</style>
+</head>
+<body data-screen-label="Harmonogram Case Study">
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="index.html" target="_top" aria-label="Home"><img src="assets/brand/rz-logo.svg" alt="logo" /></a>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html#work" target="_top" data-i18n="nav.work">Work</a>
+      <a class="nav-link" href="index.html#about" target="_top" data-i18n="nav.about">About</a>
+      <a class="nav-link" href="index.html#contact" target="_top" data-i18n="nav.contact">Contact</a>
+      <button class="lang-toggle" id="lang-toggle" aria-label="Change language" title="Polski / English"><span class="lang-label">PL</span></button>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Force cross-page navigation through the top frame (preview can swallow anchor clicks)
+  document.querySelectorAll('.nav a, .ph-cta a, .btn').forEach(a => {
+    if (!a.getAttribute('href')) return;
+    a.addEventListener('click', (e) => {
+      const href = a.getAttribute('href');
+      if (!href || href.startsWith('#')) return;
+      e.preventDefault();
+      try {
+        if (window.top && window.top !== window.self){
+          window.top.location.href = href;
+        } else {
+          window.location.href = href;
+        }
+      } catch (err){
+        window.location.href = href;
+      }
+    });
+  });
+
+  // ── i18n (EN ⇄ PL) ───────────────────────────────────
+  const I18N_PL = {
+    // Nav
+    'nav.work': 'Projekty',
+    'nav.about': 'O mnie',
+    'nav.contact': 'Kontakt',
+    // Hero meta
+    'meta.time.val': '<strong>Czas:</strong> 2 tygodnie',
+    'meta.tools.val': '<strong>Narzędzia:</strong> Figma, Adobe Illustrator',
+    // Hero
+    'ph.title': 'Harmonogram wywozu odpadów',
+    'tag.redesign': 'Redesign',
+    'tag.ui': 'Projekt UI',
+    'tag.proto': 'Prototypowanie',
+    'ph.desc': 'Aplikacja mobilna dająca mieszkańcom szybki dostęp do harmonogramu wywozu odpadów w ich okolicy. Redesign skupił się na uporządkowaniu gęstego kalendarza, tak aby najbliższe odbiory dało się odczytać jednym spojrzeniem.',
+    'ph.cta': 'Zobacz prototyp ↓',
+    // Problem
+    'problem.h2': 'Łatwy sposób, by wiedzieć, który kosz wystawić i kiedy',
+    'problem.label': 'Problem',
+    'problem.desc': 'Nieintuicyjny interfejs i błędy techniczne starej aplikacji frustrowały użytkowników, zniechęcając ich do regularnego sprawdzania harmonogramu wywozu odpadów.',
+    // Phase nav
+    'phase.discovery': 'ODKRYWANIE',
+    'phase.define': 'DEFINIOWANIE',
+    'phase.ideate': 'POMYSŁY',
+    'phase.ui': 'UI',
+    'phase.proto': 'PROTOTYP',
+    'phase.validate': 'WALIDACJA',
+    // Discovery
+    'd.title': '01. Odkrywanie',
+    'd.bg': 'Tło projektu',
+    'd.bg.p1': 'Miejski system gospodarki odpadami obejmuje wiele kategorii odpadów, każda z własnym cyklem odbioru. Harmonogramy różnią się pomiędzy dzielnicami, a nawet w obrębie poszczególnych adresów. Wcześniej mieszkańcy musieli ręcznie zapisywać pliki PDF, sprawdzać wydrukowane harmonogramy na lokalnych tablicach ogłoszeń lub dzwonić bezpośrednio do urzędu miasta.',
+    'd.bg.p2': 'Dotychczasowa aplikacja zniechęcała do korzystania z niej z powodu braku powiadomień push o nadchodzących odbiorach, w połączeniu z niespójnym i niepraktycznym projektem UI/UX. Briefem redesignu było zachowanie podstawowej struktury danych przy jednoczesnym całkowitym przeprojektowaniu otaczającego ją doświadczenia użytkownika i wprowadzeniu niezbędnych funkcji.',
+    'd.callout': 'Stara aplikacja cierpiała na niskie zaangażowanie i częste pomyłki co do dat wywozu.',
+    'd.research': 'Badania',
+    'd.research.p1': 'Żeby zrozumieć, gdzie dokładnie ludzie się gubią, przeprowadziłam krótki sprint odkrywczy — ankietę użytkowników, analizę konkurencji oraz wywiady z miejskim wydziałem gospodarki odpadami.',
+    'd.survey.title': 'Wstępna ankieta użytkowników',
+    'd.survey.body': '14 mieszkańców z trzech dzielnic odpowiedziało na 10-punktową ankietę o tym, jak obecnie sprawdzają harmonogram i co ich myli. Główny pain point — z dużą przewagą — to mylenie aktywnego tygodnia.',
+    'd.c1.h': 'Źródło',
+    'd.c1.p': 'Portal miasta, papierowa ulotka i stara aplikacja.',
+    'd.c2.h': 'Częstotliwość',
+    'd.c2.p': 'Większość sprawdzała harmonogram wieczorem przed odbiorem.',
+    'd.c3.h': 'Pain point',
+    'd.c3.p': 'Widok przypominał ścianę danych bez jasnego „co następne".',
+    'd.key': 'Kluczowy wniosek',
+    'd.key.p': 'Mieszkańcy nie chcą kalendarza. Chcą wiedzieć, co wystawić dziś wieczorem.',
+    'd.gaps.title': 'Identyfikacja luk i szans rynkowych',
+    'd.gaps.body': 'Przegląd trzech bezpośrednich konkurentów (innych polskich aplikacji komunalnych).',
+    'd.direct': 'Konkurencja bezpośrednia',
+    'd.direct.p': 'Wszyscy bezpośredni konkurenci mają harmonogram wywozów w formie listy scrollowanej - nie w formie kalendarza.',
+    'd.indirect': 'Konkurent pośredni',
+    'd.indirect.p': 'Najbardziej użyteczny wzorzec spoza branży pochodził z aplikacji z przypomnieniami — pojedyncza data w kalendarzu sparowana z czytelnym znacznikiem kategorii. Dokładnie to, czego szukają mieszkańcy.',
+    'd.opp': 'Możliwości',
+    'd.opp.p': 'Pojawiły się trzy szanse: <strong>(1)</strong> wyeksponować najbliższe odbiory na pierwszym planie, <strong>(2)</strong> użyć kodowania kolorystycznego zgodnego z fizycznymi kolorami pojemników, <strong>(3)</strong> pozwolić mieszkańcom otrzymać powiadomienie push dzień przed wywozem.',
+    'd.int.title': 'Wywiady z użytkownikami',
+    'd.int.body': 'Sześć 25-minutowych wywiadów z codziennymi użytkownikami aplikacji ujawniło dwa powtarzające się tematy: zaufanie do danych i tarcie w ścieżce wyszukiwania.',
+    'd.aff': 'Kluczowe wnioski',
+    'd.aff.1.h': 'Zaufanie',
+    'd.aff.1.p': 'Jeśli dane wyglądają chaotycznie, użytkownicy zakładają, że są też błędne.',
+    'd.aff.2.h': 'Szybkość',
+    'd.aff.2.p': 'Harmonogram powinien odpowiadać na pytanie „czy dzisiaj?" w dwóch dotknięciach lub mniej.',
+    'd.aff.3.h': 'Pamięć',
+    'd.aff.3.p': 'Mieszkańcy chcą przypomnienia dzień przed wywozem.',
+    'd.aff.4.h': 'Dostępność',
+    'd.aff.4.p': 'Aplikacja powinna być zgodna ze standardami WCAG.',
+    'd.persona': 'Persona',
+    'd.p.name': 'Magda, 34',
+    'd.p.meta': 'Słupsk · Pracująca mama · Blok mieszkalny',
+    'd.p.bio': 'Magda sprawdza harmonogram szykując kolację wieczorem przed wywozem. Ma dwoje dzieci, zajęty tydzień i zero cierpliwości do aplikacji, która ukrywa odpowiedź.',
+    'd.p.goals.h': 'Cele',
+    'd.p.goals.p': 'Wiedzieć, który kosz wystawić dzisiaj — w mniej niż 10 sekund.',
+    'd.p.frust.h': 'Frustracje',
+    'd.p.frust.p': 'Pomylenie harmonogramu oznacza pełen kosz stojący kolejne dwa tygodnie.',
+    'd.p.motiv.h': 'Motywacje',
+    'd.p.motiv.p': 'Segregować poprawnie. Nie dostać kary.',
+    'd.p.tech.h': 'Komfort z technologią',
+    'd.p.tech.p': 'Wysoki. Używa 10+ aplikacji dziennie.',
+    // Define
+    'def.title': '<strong style="font-family:var(--display)">02. Definiowanie</strong>',
+    'def.hmw': 'Aplikacja <span class="accent">Harmonogram wywozu odpadów</span> pozwoli mieszkańcom pamiętać o wystawieniu odpowiednich pojemników na śmieci w prosty i czytelny sposób.',
+    // Site map / user flow
+    'sm.h': 'Mapa serwisu',
+    'sm.p': 'Spłaszczona architektura informacji skróciła oryginalne 4-poziomowe drzewo do 2 poziomów. Sam harmonogram jest ekranem głównym — wszystko inne (aktualności, PSZOK, edukacja, zgłaszanie) jest jedno dotknięcie od dolnej nawigacji.',
+    'uf.h': 'Ścieżki użytkownika',
+    'uf.p': 'Dwie priorytetowe ścieżki zostały zmapowane do nowej IA: <em>„Sprawdź dzisiejszy odbiór"</em> oraz <em>„Zgłoś nieodebrane odpady"</em>. Obie mają cel maks. 3 dotknięć do końca.',
+    // Ideate
+    'id.title': '03. Pomysły',
+    'id.sketch': 'Szkicowanie pomysłów',
+    'id.sketch.p': 'Naszkicowałam ekrany dla harmonogramu, aktualności, wyświetlania powiadomień, sekcji „Zgłoś problem" i sekcji „Edukacja".',
+    'id.midfi': 'Wireframe\'y hi-fi',
+    'id.midfi.p': 'Kierunek z agendą i paskami najlepiej wypadł w papierowej rundzie testów, więc rozwinęłam go w wireframe\'y mid-fi obejmujące home, harmonogram, szczegóły kategorii, aktualności, PSZOK i ścieżkę zgłaszania nieodebranych odpadów.',
+    // UI
+    'ui.title': '04. UI',
+    'ui.brand': 'Branding',
+    'ui.homeicons': 'Ikony na stronie głównej',
+    'ui.logo': 'Nazwa i logo',
+    'ui.logo.p': 'Zachowałam istniejącą nazwę „Harmonogram" — mieszkańcy już ją znali. Mark został uporządkowany: czystszy wordmark o przyjaźniejszej grubości, połączony ze stylizowaną ikoną śmieciarki, która pełni również rolę ikony aplikacji.',
+    'ui.colors': 'Paleta kolorów',
+    'ui.colors.p': 'Podczas projektowania warstwy wizualnej kluczowym aspektem była dostępność.',
+    'ui.icons': 'Ikonografia korzysta z konturowego zestawu 2-pikselowego, narysowanego specjalnie dla tego projektu — spójnego z etykietami nadrukowanymi na fizycznych pojemnikach.',
+    // Prototype
+    'pr.title': '05. Prototyp',
+    'pr.hifi': 'Wireframe\'y hi-fi i prototyp',
+    'pr.hifi.p': 'Prototyp hi-fi obejmuje wszystkie sześć kluczowych ścieżek. Kolorowe chipy dat zastępują starą listę, a ekran główny prowadzi sekcjami „Dziś" i „Ten tydzień" zamiast nieróżnicowanego widoku miesięcznego.',
+    'pr.view': '↗ Zobacz prototyp',
+    // Validate
+    'v.title': '06. Walidacja',
+    'v.usab': 'Testy użyteczności',
+    'v.usab.p': '<p>W celu maksymalizacji intuicyjności modułu sprawdzania harmonogramu wywozu odpadów, przeprowadzono porównawcze testy użyteczności (A/B testing).</p><p>Przedmiotem badania było zweryfikowanie, która forma prezentacji danych lepiej odpowiada na kluczową potrzebę użytkownika: <em>„Chcę szybko dowiedzieć się, jaki odpad i kiedy muszę wystawić przed dom”.</em></p><p><strong>Wariant A:</strong> Klasyczny widok kalendarza miesięcznego z oznaczonymi dniami odbioru.</p><p><strong>Wariant B:</strong> Liniowy, chronologiczny widok listy (feed) prezentujący tylko nadchodzące terminy odbioru.</p>',
+    'v.r1': 'Skuteczność zadania „sprawdź dzisiejszy odbiór" wzrosła z 62% do 100%, średni czas spadł z 18s do 6s.',
+    'v.r2': 'Każdy uczestnik poprawnie wskazał najbliższą kategorię odbioru na pierwszym widzianym ekranie.',
+    'v.r3': 'System kolorów koszy został zrozumiany bez wyjaśnienia przez 7 z 8 testerów.',
+    'v.r4': 'Dwóch uczestników zapytało, kiedy redesign wejdzie do produkcji.',
+    'v.learn': 'Wnioski i kolejne kroki',
+    'v.learn.p': '<p>Choć początkowa hipoteza zakładała, że widok kalendarza zapewni lepszy kontekst czasowy, testy zweryfikowały to założenie. Widok listy okazał się bardziej przejrzysty i intuicyjny z kilku kluczowych powodów:</p><ul class="check-list" style="margin:14px 0"><li><strong>Kontekst Mobile-First:</strong> Na ekranach smartfonów widok kalendarza ograniczał przestrzeń na czytelne etykiety (np. konieczność stosowania małych ikon zamiast pełnych nazw frakcji odpadów). Lista pozwoliła na zastosowanie dużych, czytelnych boksów z jasną ikonografią i pełną nazwą (np. „Plastik i tworzywa sztuczne”).</li><li>Kalendarz prezentował zbyt wiele nieistotnych informacji (puste dni, w których nic się nie dzieje). Użytkownicy musieli skanować wzrokiem całą siatkę miesiąca, żeby znaleźć dzień, który ich interesuje.</li></ul><p>Na podstawie zebranych danych podjęto decyzję o wdrożeniu <strong>Wariantu B (widok listy)</strong> jako domyślnego sposobu prezentacji harmonogramu.</p>',
+    // Final
+    'final.thanks': 'Dziękuję za uwagę!',
+    'more': 'Zobacz więcej projektów ↗',
+    'copyright': '© 2025 — Roksana Żytkowska, with Claude Design',
+  };
+
+  const HTML_KEYS = new Set(['d.opp.p','def.title','def.hmw','uf.p','meta.time.val','meta.tools.val']);
+
+  function applyLang(lang){
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      const html = el.dataset.i18nHtml === '1' || HTML_KEYS.has(key);
+      if (lang === 'pl'){
+        if (!el.hasAttribute('data-en')) el.setAttribute('data-en', html ? el.innerHTML : el.textContent);
+        const trans = I18N_PL[key];
+        if (trans != null){ if (html) el.innerHTML = trans; else el.textContent = trans; }
+      } else {
+        const cached = el.getAttribute('data-en');
+        if (cached != null){ if (html) el.innerHTML = cached; else el.textContent = cached; }
+      }
+    });
+    document.documentElement.lang = lang === 'pl' ? 'pl' : 'en';
+    const lbl = document.querySelector('#lang-toggle .lang-label');
+    if (lbl) lbl.textContent = lang === 'pl' ? 'EN' : 'PL';
+  }
+  let currentLang = localStorage.getItem('portfolio-lang') || 'pl';
+  function initLang(){
+    applyLang(currentLang);
+    document.getElementById('lang-toggle').addEventListener('click', () => {
+      currentLang = currentLang === 'en' ? 'pl' : 'en';
+      localStorage.setItem('portfolio-lang', currentLang);
+      applyLang(currentLang);
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initLang);
+  else initLang();
+
+  // sticky nav scrolled-state
+  (function(){
+    const nav = document.querySelector('.nav');
+    if (!nav) return;
+    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 12);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+</script>
+
+<section class="ph" data-screen-label="01 Header">
+  <div class="ph-text">
+    <h1 data-i18n="ph.title">Waste Collection Schedule</h1>
+    <ul class="ph-tags">
+      <li class="ph-tag" data-i18n="tag.redesign">Redesign</li>
+      <li class="ph-tag" data-i18n="tag.ui">UI Design</li>
+      <li class="ph-tag" data-i18n="tag.proto">Prototyping</li>
+    </ul>
+    <p data-i18n="ph.desc">A mobile application that gives residents quick access to waste collection schedules in their local area. The redesign focused on bringing clarity to a dense calendar, making it easy to scan upcoming pickups at a glance.</p>
+    <dl class="ph-meta">
+      <div>
+        <dd data-i18n="meta.time.val"><strong>Time:</strong> 2 weeks</dd>
+      </div>
+      <div>
+        <dd data-i18n="meta.tools.val"><strong>Tools:</strong> Figma, Adobe Illustrator</dd>
+      </div>
+    </dl>
+    <div class="ph-cta">
+      <a class="btn ghost" href="#prototype" data-i18n="ph.cta">See Prototype ↓</a>
+    </div>
+  </div>
+  <div class="ph-art has-img"><img src="assets/harmonogram/harmonogram-home.png" alt="Harmonogram app — home screen" /></div>
+</section>
+
+<section class="strip">
+  <div class="strip-inner">
+    <div class="phone has-img"><img src="assets/harmonogram/harmonogram-screen-home.png" alt="Home — tile grid" loading="lazy" decoding="async" /></div>
+    <div class="phone has-img"><img src="assets/harmonogram/harmonogram-screen-schedule.png" alt="Schedule — upcoming pickups" loading="lazy" decoding="async" /></div>
+    <div class="phone has-img"><img src="assets/harmonogram/harmonogram-screen-category.png" alt="Category — segregation guide" loading="lazy" decoding="async" /></div>
+    <div class="phone has-img"><img src="assets/harmonogram/harmonogram-screen-news.png" alt="Notifications" loading="lazy" decoding="async" /></div>
+    <div class="phone has-img"><img src="assets/harmonogram/harmonogram-screen-pszok.png" alt="PSZOK — collection points" loading="lazy" decoding="async" /></div>
+    <div class="phone has-img"><img src="assets/harmonogram/harmonogram-screen-report.png" alt="PSZOK — collection points (redacted)" loading="lazy" decoding="async" /></div>
+  </div>
+</section>
+
+<section class="problem" style="padding: 50px 0px">
+  <div class="problem-inner">
+    <h2 data-i18n="problem.h2">An easy way to know which bin goes out and when</h2>
+    <h3 class="problem-label" data-i18n="problem.label">Problem</h3>
+    <p class="problem-desc" data-i18n="problem.desc">The unintuitive interface and technical glitches of the legacy application caused user frustration, effectively discouraging them from regularly checking the waste collection schedule.</p>
+  </div>
+</section>
+
+<nav class="phasenav">
+  <a href="#discovery" data-i18n="phase.discovery">DISCOVERY</a>
+  <a href="#define" data-i18n="phase.define">DEFINE</a>
+  <a href="#ideate" data-i18n="phase.ideate">IDEATE</a>
+  <a href="#ui" data-i18n="phase.ui">UI</a>
+  <a href="#prototype" data-i18n="phase.proto">PROTOTYPE</a>
+  <a href="#validate" data-i18n="phase.validate">VALIDATE</a>
+</nav>
+
+<section class="section" id="discovery">
+  <h2 data-i18n="d.title">01. Discovery</h2>
+
+  <h3 data-i18n="d.bg">Background</h3>
+  <p data-i18n="d.bg.p1">The city's municipal waste management system involves multiple waste categories, each with its own collection cycle. Schedules vary across districts and even down to specific individual addresses. Previously, residents had to manually save PDFs, check printed timetables on local bulletin boards, or call the city office directly.</p>
+  <p data-i18n="d.bg.p2">Furthermore, the legacy app discouraged user adoption due to a lack of push notifications for upcoming collections, combined with an inconsistent and impractical UI/UX design. The redesign brief was to preserve the underlying data structure while completely overhauling the surrounding user experience and introducing essential features.</p>
+
+  <h4 style="color:var(--red);" data-i18n="d.key">Key Insight</h4>
+  <p style="color:var(--red);font-weight:500" data-i18n="d.key.p">Residents don't want a calendar. They want to know what to put out tonight.</p>
+
+  <ol class="ol-circle" start="2">
+    <li><span data-i18n="d.gaps.title">Identifying Gaps and Opportunities in the Market</span>
+      <p data-i18n="d.gaps.body">A scan of three direct competitors (other Polish municipal waste apps).</p>
+    </li>
+  </ol>
+
+  <h4 data-i18n="d.direct">Direct Competition</h4>
+  <div class="competitors">
+    <div class="comp-item">
+      <div class="comp has-img"><img src="assets/harmonogram/comp-ecoharmonogram.jpg" alt="Moje Odpady" loading="lazy" decoding="async" /></div>
+      <span class="comp-name">Moje Odpady</span>
+    </div>
+    <div class="comp-item">
+      <div class="comp has-img"><img src="assets/harmonogram/comp-kiedy-smieci.jpg" alt="Kiedy Śmieci" loading="lazy" decoding="async" /></div>
+      <span class="comp-name">Kiedy Śmieci</span>
+    </div>
+    <div class="comp-item">
+      <div class="comp has-img"><img src="assets/harmonogram/comp-harmonogram-h.jpg" alt="Eco Harmonogram" loading="lazy" decoding="async" /></div>
+      <span class="comp-name">Eco Harmonogram</span>
+    </div>
+  </div>
+  <p data-i18n="d.direct.p">All direct competitors present the collection schedule as a scrollable list — not as a calendar.</p>
+
+  <h4 style="color:var(--red)" data-i18n="d.opp">Opportunities</h4>
+  <p data-i18n="d.opp.p" data-i18n-html="1">Three opportunities emerged: <strong>(1)</strong> surface the next pickups front-and-center, <strong>(2)</strong> use color coding consistent with the physical bin colors, and <strong>(3)</strong> allow residents to receive a push notification the day before pickup.</p>
+
+  <h4 style="color:var(--red)" data-i18n="d.aff">Key insights</h4>
+  <div class="cards cards-4">
+    <div class="card"><h5 data-i18n="d.aff.1.h">Trust</h5><p data-i18n="d.aff.1.p">If the data looks confusing, users assume it's also wrong.</p></div>
+    <div class="card"><h5 data-i18n="d.aff.2.h">Speed</h5><p data-i18n="d.aff.2.p">The schedule should answer "is it tonight?" in two taps or less.</p></div>
+    <div class="card"><h5 data-i18n="d.aff.3.h">Memory</h5><p data-i18n="d.aff.3.p">Residents want a reminder the day before pickup.</p></div>
+    <div class="card"><h5 data-i18n="d.aff.4.h">Accessibility</h5><p data-i18n="d.aff.4.p">The app should comply with WCAG standards.</p></div>
+  </div>
+
+</section>
+
+<section class="define-band" id="define">
+  <h2 data-i18n="def.title" data-i18n-html="1"><strong style="font-family:var(--display)">02. Define</strong></h2>
+  <h2 data-i18n="def.hmw" data-i18n-html="1">The <span class="accent">Waste Collection Schedule</span> app will help residents remember to put out the right bins in a simple, clear way.</h2>
+</section>
+
+<section class="section" id="ideate">
+  <h2 data-i18n="id.title">03. Ideate</h2>
+
+  <h3 style="color:var(--red)" data-i18n="id.sketch">Sketching Design Ideas</h3>
+  <p data-i18n="id.sketch.p">I sketched the screens for the schedule, news, notification display, the "Report a problem" section, and the "Education" section.</p>
+  <div class="ph-block sketch"><img src="assets/harmonogram/sketch-report-flow.png" alt="Paper sketches — 'Report a problem' flow thumbnails" loading="lazy" decoding="async" /></div>
+
+  <h3 style="color:var(--red)" data-i18n="id.midfi">Hi-Fi Wireframes</h3>
+  <div class="ph-block has-img" style="display:flex;flex-direction:column;gap:16px"><img src="assets/harmonogram/wireframes-report-1.png" alt="'Zgłoś problem' flow — hi-fi wireframes, screens 1–5" loading="lazy" decoding="async" /><img src="assets/harmonogram/wireframes-report-2.png" alt="'Zgłoś problem' flow — hi-fi wireframes, screens 6–10" loading="lazy" decoding="async" /></div>
+</section>
+
+<section class="section" id="ui">
+  <h2 data-i18n="ui.title">04. UI</h2>
+
+  <h3 style="color:var(--red)" data-i18n="ui.brand">Branding</h3>
+
+  <h4 data-i18n="ui.homeicons">Home screen icons</h4>
+  <div class="logo-icons">
+    <img src="assets/harmonogram/logo-icon-1.svg" alt="App icon exploration — green" loading="lazy" decoding="async" />
+    <img src="assets/harmonogram/logo-icon-2.svg" alt="App icon exploration" loading="lazy" decoding="async" />
+    <img src="assets/harmonogram/logo-icon-3.svg" alt="App icon exploration" loading="lazy" decoding="async" />
+    <img src="assets/harmonogram/logo-icon-4.svg" alt="App icon exploration" loading="lazy" decoding="async" />
+    <img src="assets/harmonogram/logo-icon-5.svg" alt="App icon exploration" loading="lazy" decoding="async" />
+    <img src="assets/harmonogram/logo-icon-6.svg" alt="App icon exploration" loading="lazy" decoding="async" />
+    <img src="assets/harmonogram/logo-icon-7.svg" alt="App icon exploration — dark blue" loading="lazy" decoding="async" />
+  </div>
+
+  <h4 data-i18n="ui.colors">Color Palette</h4>
+  <p data-i18n="ui.colors.p" style="width: 1084px; max-width: 100%">During the design of the visual layer, accessibility was a key consideration.</p>
+  <div class="swatches">
+    <div class="sw-item"><div class="sw" style="background:#FCB316"></div><span class="sw-name">Metale i tworzywa sztuczne</span></div>
+    <div class="sw-item"><div class="sw" style="background:#242121"></div><span class="sw-name">Odpad zmieszany</span></div>
+    <div class="sw-item"><div class="sw" style="background:#0971CE"></div><span class="sw-name">Papier</span></div>
+    <div class="sw-item"><div class="sw" style="background:#3E7941"></div><span class="sw-name">Szkło</span></div>
+    <div class="sw-item"><div class="sw" style="background:#995F35"></div><span class="sw-name">Bio</span></div>
+    <div class="sw-item"><div class="sw" style="background:#D60036"></div><span class="sw-name">Wielkogabaryty, RTV/AGD</span></div>
+    <div class="sw-item"><div class="sw" style="background:#A88AE6"></div><span class="sw-name">Odbiór choinek</span></div>
+    <div class="sw-item"><div class="sw" style="background:#4801A6"></div><span class="sw-name">Tekstylia</span></div>
+    <div class="sw-item"><div class="sw" style="background:#50C6B2"></div><span class="sw-name">Wszystkie frakcje</span></div>
+  </div>
+</section>
+
+<section class="section" id="prototype">
+  <h2 data-i18n="pr.title">05. Prototype</h2>
+  <div class="ph-block full has-img"><img src="assets/harmonogram/harmonogram-phones-tile.jpg" alt="Hi-fi mockups" /></div>
+  <p style="margin-top:12px"><a href="https://www.figma.com/proto/BSqvuoZXHqP0sQ5EPcY0Cf/Harmonogram-Wywozu-Odpad%C3%B3w?node-id=1-1058&viewport=212%2C115%2C0.4&t=orTOV1OWyoA9SsMb-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1" target="_blank" rel="noopener" style="color:var(--red);font-weight:500" data-i18n="pr.view">↗ View Prototype</a></p>
+</section>
+
+<section class="section" id="validate">
+  <h2 data-i18n="v.title">06. Validate</h2>
+
+  <h3 data-i18n="v.usab">Usability Testing</h3>
+  <div data-i18n="v.usab.p" data-i18n-html="1" style="max-width:780px">
+    <p>To maximise the intuitiveness of the schedule-checking module, a comparative usability test (A/B test) was carried out.</p>
+    <p>The study set out to verify which form of presenting the data better answered the user's key need: <em>"I want to quickly find out what waste I have to put out, and when."</em></p>
+    <p><strong>Variant A:</strong> a classic monthly calendar view with the pickup days marked.</p>
+    <p><strong>Variant B:</strong> a linear, chronological list (feed) showing only the upcoming pickup dates.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:16px auto 0;max-width:460px">
+    <img src="assets/harmonogram/harmonogram-validate-1.png" alt="Final Harmonogram app — monthly calendar view" loading="lazy" decoding="async" style="width:100%;height:auto;display:block" />
+    <img src="assets/harmonogram/harmonogram-validate-2.png" alt="Final Harmonogram app — pickup schedule list" loading="lazy" decoding="async" style="width:100%;height:auto;display:block" />
+  </div>
+
+  <h3 data-i18n="v.learn">Learnings and Next Steps</h3>
+  <div data-i18n="v.learn.p" data-i18n-html="1" style="max-width:780px">
+    <p>Although the initial hypothesis assumed the calendar view would give better temporal context, testing challenged that assumption. The list view turned out to be clearer and more intuitive, for a few key reasons:</p>
+    <ul class="check-list" style="margin:14px 0">
+      <li><strong>Mobile-first context:</strong> on smartphone screens the calendar view left little room for readable labels (forcing small icons instead of full waste-fraction names). The list allowed large, legible boxes with clear iconography and the full name (e.g. "Plastic &amp; synthetic materials").</li>
+      <li>The calendar showed too much irrelevant information (empty days where nothing happens). Users had to scan the entire month grid to find the day they cared about.</li>
+    </ul>
+    <p>Based on the data gathered, the decision was made to implement <strong>Variant B (the list view)</strong> as the default way of presenting the schedule.</p>
+  </div>
+</section>
+
+<section class="final">
+  <h2 data-i18n="final.thanks">Thank you for your attention!</h2>
+  <div class="phone-final has-img"><img src="assets/harmonogram/harmonogram-home.png" alt="Harmonogram app — home screen" style="padding: 0px; margin: 0px" /></div>
+  <a class="btn" href="index.html#work" data-i18n="more" style="padding: 12px 22px; margin: 50px 0px 0px">See more work ↗</a>
+</section>
+
+<footer>
+  <div class="foot-info">
+    <div class="copyright" data-i18n="copyright">© 2025 — Roksana Żytkowska, with Claude Design</div>
+    <div class="foot-contact">
+      <a class="foot-link" href="mailto:roksanazytkowska@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>roksanazytkowska@gmail.com</a>
+      <button class="copy-btn" type="button" data-copy="roksanazytkowska@gmail.com" aria-label="Copy email" title="Copy email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button>
+      <a class="foot-link" href="tel:+48511588724"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>+48 511 588 724</a>
+      <button class="copy-btn" type="button" data-copy="+48511588724" aria-label="Copy phone number" title="Copy phone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button>
+    </div>
+  </div>
+  <a class="foot-logo" href="index.html" aria-label="Home"><img src="assets/brand/rz-logo.svg" alt="logo" /></a>
+  <div class="socials">
+    <a href="https://www.linkedin.com/in/roksana-%C5%BCytkowska-874285223/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1-.02 5.01A2.5 2.5 0 0 1 4.98 3.5zM3 9h4v12H3V9zm7 0h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21H18v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85V21H10V9z"/></svg></a>
+    <a href="https://www.instagram.com/zytkowska_roksana?igsh=czY5cHlpN2RqYjkw" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.copy-btn');
+    if (!btn) return;
+    const text = btn.getAttribute('data-copy');
+    const done = () => {
+      btn.classList.add('copied');
+      const prev = btn.getAttribute('aria-label');
+      btn.setAttribute('aria-label', 'Copied!'); btn.setAttribute('title', 'Copied!');
+      setTimeout(() => { btn.classList.remove('copied'); btn.setAttribute('aria-label', prev); btn.setAttribute('title', 'Copy'); }, 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(() => {});
+    } else {
+      const ta = document.createElement('textarea'); ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); done(); } catch(_) {}
+      ta.remove();
+    }
+  });
+</script>
+
+</body>
+</html>
