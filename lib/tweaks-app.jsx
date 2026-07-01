@@ -22,7 +22,7 @@ const LOGO_PRESETS = {
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "logoSvg": "<img src=\"assets/brand/rz-logo.svg\" alt=\"logo\" style=\"height:100%;width:auto;display:block\">",
-  "palette": ["#B12A35", "#A99A2A", "#FDF7EB"],
+  "palette": ["#B12A35", "#A99A2A", "#FFFFFF"],
   "displayFont": "DM Serif Display",
   "bodyFont": "DM Sans",
   "heroStyle": "warm",
@@ -30,7 +30,7 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 }/*EDITMODE-END*/;
 
 const PALETTES = [
-  ["#B12A35", "#A99A2A", "#FDF7EB"], // crimson + mustard (current default)
+  ["#B12A35", "#A99A2A", "#FFFFFF"], // crimson + mustard (current default)
   ["#1F3FBA", "#AFB37B", "#FAF7EE"], // cobalt + olive
   ["#3A2A6B", "#E89B5A", "#FBF6EE"], // plum + apricot
   ["#0E5C4A", "#E6C45E", "#F5F2E8"], // forest + ochre
