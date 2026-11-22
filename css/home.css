@@ -1,0 +1,324 @@
+/* ==========================================================================
+   Homepage
+   ========================================================================== */
+
+/* ---------- Intro ---------- */
+.intro { padding-top: clamp(40px, 4vw, 58px); padding-bottom: clamp(48px, 4vw, 62px); }
+.intro__inner { padding-left: var(--indent); }
+.intro__text { max-width: 950px; }
+.intro__btn { margin-top: clamp(32px, 3vw, 50px); }
+.intro__btn, .intro__btn * { cursor: var(--cursor-discover); }
+
+/* Hover: a soft gradient that flows after the cursor.
+   home.js writes the pointer position to --gx/--gy; @property makes them animatable,
+   so the transition gives the "melting" lag behind the cursor. */
+@property --gx { syntax: '<percentage>'; inherits: true; initial-value: 50%; }
+@property --gy { syntax: '<percentage>'; inherits: true; initial-value: 50%; }
+.intro__btn {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  --gx: 50%; --gy: 50%;
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease),
+              transform var(--dur) var(--ease), --gx .9s cubic-bezier(.2,.7,.2,1), --gy .9s cubic-bezier(.2,.7,.2,1);
+}
+.intro__btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background:
+    /* orange core follows the cursor, melts into pink, then into the blue base */
+    radial-gradient(130px 110px at var(--gx) var(--gy),
+      #ED5A32 0%, rgba(237, 90, 50, .75) 18%, #ED9DB7 50%, rgba(237, 157, 183, 0) 100%),
+    var(--c-blue-light);
+  opacity: 0;
+  transition: opacity .35s var(--ease);
+}
+@media (hover: hover) {
+  .intro__btn:hover::before { opacity: 1; }
+}
+.intro__btn:active::before { opacity: 0; transition-duration: 0s; }
+@media (prefers-reduced-motion: reduce) {
+  .intro__btn { transition: background-color var(--dur), color var(--dur), border-color var(--dur); }
+}
+
+/* Peach .marker highlight itself lives in base.css (shared with case studies).
+   Page-load animation: the marker strokes are drawn one after another */
+.marker { animation: marker-draw .9s cubic-bezier(.6, .05, .3, 1) .5s both; }
+.marker:nth-of-type(2) { animation-delay: 1.35s; }
+@keyframes marker-draw {
+  from { background-size: 0% 100%; }
+  to   { background-size: 100% 100%; }
+}
+
+/* "Discover my work": every few seconds a flowing gradient briefly sweeps
+   across the button to invite a click. Starts after the markers are drawn,
+   pauses on hover (the cursor gradient takes over), stops once the visitor
+   scrolls (home.js adds .has-scrolled). */
+.intro__btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(100deg,
+    rgba(190, 222, 244, 0) 0%, #BEDEF4 22%, #ED9DB7 40%, #ED5A32 50%,
+    #ED9DB7 60%, #BEDEF4 78%, rgba(190, 222, 244, 0) 100%) 0 0 / 300% 100% no-repeat;
+  opacity: 0;
+  pointer-events: none;
+  animation: invite-flow 5s cubic-bezier(.45, 0, .25, 1) 2.4s infinite;
+}
+@keyframes invite-flow {
+  0%   { background-position: 100% 0; opacity: 0; }
+  8%   { opacity: 1; }
+  32%  { opacity: 1; }
+  42%  { background-position: 0% 0; opacity: 0; }
+  100% { background-position: 0% 0; opacity: 0; }
+}
+.intro__btn:hover::after,
+.intro__btn:active::after,
+.has-scrolled .intro__btn::after { animation: none; opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .marker, .intro__btn::after { animation: none; }
+}
+
+/* ---------- Skills carousel (marquee) ---------- */
+.skills {
+  background: var(--c-band);
+  overflow: hidden;
+}
+.skills__viewport {
+  display: flex;
+  align-items: center;
+  min-height: clamp(96px, 7.4vw, 140px);
+}
+.skills__track {
+  display: flex;
+  flex: none;
+  width: max-content;
+  animation: marquee var(--marquee-duration, 40s) linear infinite;
+}
+.skills__list { display: flex; flex: none; }
+.skills__item {
+  flex: none;
+  padding-right: clamp(56px, 7.2vw, 137px);
+  color: var(--c-text-muted);
+  font: 400 var(--fs-carousel)/1.5 var(--font-heading);
+  white-space: nowrap;
+}
+@media (hover: hover) {
+  .skills:hover .skills__track { animation-play-state: paused; }
+}
+@keyframes marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skills__track { animation: none; transform: none; }
+  .skills__track .skills__list[aria-hidden="true"] { display: none; }
+  .skills__viewport { overflow-x: auto; padding-inline: var(--gutter); }
+}
+
+/* ---------- Projects ---------- */
+.projects { padding-top: clamp(64px, 6vw, 110px); padding-bottom: clamp(96px, 9vw, 168px); }
+
+.projects__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  padding-top: 28px;
+  border-top: 1px solid var(--c-rule);
+}
+.filters { display: flex; flex-wrap: wrap; gap: 12px 20px; }
+
+.projects__list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(72px, 7.7vw, 146px);
+  margin-top: clamp(32px, 3vw, 53px);
+}
+.projects__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 64px 62px;
+}
+.projects__grid[hidden] { display: none; }
+/* cards in a row stretch to the same height → arrows line up even when descriptions differ */
+.projects__grid .project-card { display: flex; flex-direction: column; }
+.projects__grid .project-card[hidden] { display: none; }
+.projects__grid .project-card__more { margin-top: auto; padding-top: 24px; }
+
+.projects__status:empty { display: none; }
+
+/* Card – shared by featured (Plantify) and small cards */
+.project-card { position: relative; }
+/* work cursor: whole small card; on the featured card only its button */
+.project-card:not(.project-card--featured),
+.project-card:not(.project-card--featured) *,
+.project-card__cta, .project-card__cta * { cursor: var(--cursor-work); }
+.project-card[hidden] { display: none; }
+.project-card.is-entering { animation: card-in .35s var(--ease) both; }
+@keyframes card-in { from { opacity: 0; transform: translateY(12px); } }
+
+.project-card__media {
+  overflow: hidden;
+  background: var(--c-placeholder);
+  border-radius: var(--radius-md);
+  aspect-ratio: 521 / 326;
+}
+.project-card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease); }
+.project-card__placeholder { width: 100%; height: 100%; background: var(--c-placeholder); }
+
+.project-card__title { margin-top: clamp(24px, 2.4vw, 40px); }
+.project-card__title a {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .18em;
+  transition: text-decoration-color var(--dur) var(--ease);
+}
+/* whole card is clickable via the title link */
+.project-card__title a::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: var(--radius-md); }
+.project-card__title a:focus-visible { outline: none; }
+.project-card__title a:focus-visible::after { outline: 3px solid var(--c-bordo); outline-offset: 6px; }
+
+.project-card__desc { margin-top: 12px; }
+
+/* Small card "arrow → Go to case study →" */
+.project-card__more {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 39px;
+  margin-top: 24px;
+  font: 400 var(--fs-btn)/1.2 var(--font-ui);
+}
+.project-card__more-label {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition: max-width .35s var(--ease), opacity .25s var(--ease);
+}
+
+@media (hover: hover) {
+  .project-card:hover .project-card__title a { text-decoration-color: currentColor; }
+  .project-card:hover .project-card__more-label { max-width: 12em; opacity: 1; }
+  .project-card:not(.project-card--featured):hover .project-card__media img { transform: scale(1.02); }
+}
+.project-card:focus-within .project-card__title a { text-decoration-color: currentColor; }
+.project-card:focus-within .project-card__more-label { max-width: 12em; opacity: 1; }
+
+/* Featured card (Plantify) – no card-level hover: only the button reacts */
+.project-card--featured .project-card__media { aspect-ratio: 1103 / 689; border-radius: var(--radius-lg); }
+.project-card--featured .project-card__desc { margin-top: 16px; }
+.project-card--featured .project-card__cta { margin-top: clamp(24px, 2.2vw, 36px); }
+
+/* ---------- Let's connect ---------- */
+.connect {
+  position: relative;
+  overflow: hidden;
+  background: var(--c-connect);
+}
+.connect__inner { position: relative; z-index: 1; min-height: 301px; padding-top: 46px; padding-bottom: 54px; }
+.connect__lead { margin-top: 4px; }
+/* "Send me a message" – "bite" hover (also on keyboard focus).
+   1. bordo fills the button from the bottom (background-size 100% 0% → 100% 100%)
+   2. text, arrow and outline change colour, slightly delayed
+   3. two round bites disappear from the top-right corner, one after the other
+      (two mask layers intersected, radii = --bite and --bite-2)
+   4. the arrow moves 4px to the right */
+@property --bite   { syntax: '<length>'; inherits: false; initial-value: 0px; }
+@property --bite-2 { syntax: '<length>'; inherits: false; initial-value: 0px; }
+
+.connect__btn {
+  --bite: 0px;
+  --bite-2: 0px;
+  margin-top: 50px;
+  background: linear-gradient(#6E1329, #6E1329) left bottom / 100% 0% no-repeat transparent;
+  /* everything inside the circles (outline included) is cut away; at 0px nothing is.
+     Two layers intersected = both bites cut out. */
+  -webkit-mask:
+    radial-gradient(circle at calc(100% - 30px) -6px, transparent var(--bite), #000 calc(var(--bite) + .5px)),
+    radial-gradient(circle at calc(100% - 60px) -4px, transparent var(--bite-2), #000 calc(var(--bite-2) + .5px));
+  -webkit-mask-composite: source-in;
+  mask:
+    radial-gradient(circle at calc(100% - 30px) -6px, transparent var(--bite), #000 calc(var(--bite) + .5px)),
+    radial-gradient(circle at calc(100% - 60px) -4px, transparent var(--bite-2), #000 calc(var(--bite-2) + .5px));
+  mask-composite: intersect;
+  transition:
+    background-size .45s cubic-bezier(.4, 0, .2, 1),
+    color .3s ease .1s,
+    border-color .3s ease .1s,
+    --bite .35s cubic-bezier(.34, 1.8, .5, 1) .15s,
+    --bite-2 .35s cubic-bezier(.34, 1.8, .5, 1) .35s,
+    transform var(--dur) var(--ease);
+}
+.connect__btn .icon { transition: transform .3s cubic-bezier(.4, 0, .2, 1); }
+
+@media (hover: hover) {
+  .connect__btn:hover {
+    --bite: 20px;
+    --bite-2: 16px;
+    background: linear-gradient(#6E1329, #6E1329) left bottom / 100% 100% no-repeat transparent;
+    border-color: #6E1329;
+    color: #C9E0F0;
+  }
+  .connect__btn:hover .icon { transform: translateX(4px); }
+}
+.connect__btn:focus-visible {
+  --bite: 20px;
+  --bite-2: 16px;
+  background: linear-gradient(#6E1329, #6E1329) left bottom / 100% 100% no-repeat transparent;
+  border-color: #6E1329;
+  color: #C9E0F0;
+}
+.connect__btn:focus-visible .icon { transform: translateX(4px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .connect__btn, .connect__btn .icon { transition: none; }
+}
+
+/* Cheesecake video: right part of the section, cropped so the cake fills the height
+   (as in the mockup); the left edge fades into the section colour. */
+.connect__media {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 45%;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 18%);
+          mask-image: linear-gradient(to right, transparent 0, #000 18%);
+}
+.connect__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 54%;
+}
+
+@media (max-width: 760px) {
+  .connect { display: flex; flex-direction: column-reverse; }
+  .connect__inner { min-height: 0; padding-bottom: 8px; }
+  .connect__media {
+    position: relative;
+    width: 100%;
+    height: clamp(200px, 56vw, 320px);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 25%);
+            mask-image: linear-gradient(to bottom, transparent 0, #000 25%);
+  }
+  .connect__video { object-position: 60% 50%; }
+} /* takes the section colour; hover/tap states from .btn still apply */
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .projects__grid { grid-template-columns: 1fr; gap: clamp(64px, 10vw, 96px); }
+}
+@media (max-width: 600px) {
+  .project-card--featured .project-card__media { aspect-ratio: 4 / 3; border-radius: 20px; }
+  .btn { padding: 0 28px; }
+}

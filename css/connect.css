@@ -1,0 +1,93 @@
+/* ==========================================================================
+   Connect page (connect.html) – Figma screens/connect.png
+   Loaded after base.css + home.css (the button reuses .connect__btn).
+   Measurements at 1895 px: gradient area 930 px tall, form column 855 px
+   starting at the intro indent (62 px), fields 110 px apart.
+   ========================================================================== */
+
+/* ---------- Gradient area ---------- */
+.contact {
+  position: relative;
+  overflow: hidden;
+  min-height: min(calc(100svh - var(--header-h)), 930px);
+  display: flex; align-items: center;
+  padding-block: clamp(64px, 8vw, 150px);
+  background: #EEF3FC;
+}
+.contact__bg { position: absolute; inset: 0; pointer-events: none; }
+.contact__blob {
+  position: absolute; border-radius: 50%;
+  filter: blur(90px);
+  animation: contact-drift 22s ease-in-out infinite alternate;
+}
+.contact__blob--a { width: 46vw; height: 70%; left: -8vw; top: 20%; background: #D9E2F7; }
+.contact__blob--b { width: 40vw; height: 80%; left: 28vw; top: -20%; background: #F5F9FF; animation-delay: -7s; }
+.contact__blob--c { width: 48vw; height: 90%; right: -10vw; top: 25%; background: #EFE9F4; animation-delay: -14s; }
+@keyframes contact-drift {
+  to { transform: translate3d(4vw, -3vw, 0) scale(1.12); }
+}
+
+.contact__inner {
+  position: relative;
+  max-width: calc(855px + var(--indent));
+  padding-left: var(--indent);
+}
+.contact__title { color: #121F13; }
+
+/* ---------- Form ---------- */
+.contact-form { margin-top: clamp(8px, 1vw, 16px); }
+
+/* Underlined field with a floating label:
+   the label sits on the line like a placeholder and moves up once the
+   field is focused or filled (placeholder=" " + :placeholder-shown). */
+.field {
+  position: relative;
+  padding-top: 28px;                 /* room for the raised label */
+  margin-bottom: clamp(36px, 3.4vw, 64px);
+}
+.field__input {
+  display: block; width: 100%;
+  padding: 8px 0 14px;
+  border: 0; border-bottom: 2px solid #8A8C91;
+  border-radius: 0;
+  background: transparent;
+  color: #121F13;
+  font: 400 var(--fs-btn)/1.5 var(--font-ui);       /* 20 px Inter */
+  outline: none;
+  transition: border-color var(--dur) var(--ease);
+  appearance: none;
+}
+.field__input--area { resize: none; overflow: hidden; min-height: calc(1.5em + 22px); }
+.field__label {
+  position: absolute; left: 0; top: 36px;
+  color: #121F13;
+  font: 400 var(--fs-btn)/1.5 var(--font-ui);
+  transform-origin: 0 0;
+  pointer-events: none;
+  transition: transform .25s var(--ease), color .25s var(--ease);
+}
+.field__input:focus ~ .field__label,
+.field__input:not(:placeholder-shown) ~ .field__label {
+  transform: translateY(-32px) scale(.7);
+  color: var(--c-text-muted);
+}
+.field__input:focus { border-bottom-color: var(--c-bordo); }
+.field__input:focus ~ .field__label { color: var(--c-bordo); }
+
+/* errors */
+.field__error {
+  position: absolute; left: 0; top: calc(100% + 6px);
+  color: var(--c-bordo); font: 400 .875rem/1.4 var(--font-ui);
+}
+.field__error:empty { display: none; }
+.field__input[aria-invalid="true"] { border-bottom-color: var(--c-bordo); }
+
+.contact-form__btn { margin-top: clamp(4px, 1vw, 12px); }
+.contact-form__btn, .contact-form__btn * { cursor: var(--cursor-pointer); }
+.contact-form__status { margin-top: 20px; color: #121F13; font: 300 var(--fs-ui)/var(--lh) var(--font-ui); }
+.contact-form__status:empty { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .contact__blob { animation: none; }
+  .field__label { transition: none; }
+}

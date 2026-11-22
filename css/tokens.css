@@ -1,0 +1,63 @@
+/* ==========================================================================
+   Design tokens – roksana-design.pl
+   Shared by every page. Change values here, not in component styles.
+   ========================================================================== */
+
+:root {
+  /* ---- Colours ---- */
+  --c-bordo: #72142A;          /* accent, footer, active filter, tap state */
+  --c-text: #121F13;           /* body text */
+  --c-blue-light: #BEDEF4;     /* button hover, "Copy e-mail" */
+  --c-band: #EFF8FF;           /* carousel background */
+  --c-connect: #CADEE2;        /* "Let's connect" – matches the cheesecake video backdrop */
+  --c-peach: #FECCA6;          /* text highlight, nav hover */
+  --c-placeholder: #FFDFE3;    /* image placeholders */
+  --c-bordo-muted: #B4838E;    /* breadcrumb current page, inactive side navigation */
+  --c-lilac: #CACFED;          /* case study: prototype image background */
+  --c-cover: #E9EAFF;          /* case study: backdrop behind the full-width cover image */
+  --c-cream: #FAF1E8;          /* SensoŁapki brand cream (cover backdrop) */
+  --c-white: #FFFFFF;
+
+  --c-text-muted: #686B73;     /* carousel items */
+  --c-disabled: #A3A6AB;       /* disabled button text + border */
+  --c-rule: rgba(18, 31, 19, .55);
+  --c-on-bordo-muted: rgba(255, 223, 227, .6); /* footer copyright */
+
+  /* ---- Fonts ---- */
+  --font-heading: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-ui: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* ---- Type scale (desktop values from content.txt, fluid down to mobile) ---- */
+  --fs-hero: clamp(1.75rem, 1.2rem + 2.2vw, 3rem);       /* 48px  Poppins 400/700 */
+  --fs-h1: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem);       /* 40px  Poppins 400 */
+  --fs-h2: clamp(1.5rem, 1.25rem + 1vw, 2rem);           /* 32px  Poppins 700 */
+  --fs-h3: clamp(1.25rem, 1rem + 1vw, 2rem);             /* 32px  Poppins 400 */
+  --fs-h4: clamp(1.25rem, 1rem + 1vw, 2rem);             /* 32px  Inter 200 */
+  --fs-h5: clamp(1.0625rem, .95rem + .45vw, 1.5rem);     /* 24px  Inter 300 (Light) */
+  --fs-carousel: clamp(1.375rem, 1.1rem + 1.1vw, 2rem);  /* 32px  Poppins 400 */
+  --fs-btn: clamp(1.0625rem, 1rem + .25vw, 1.25rem);     /* 20px  Inter 400 */
+  --fs-ui: 1rem;                                         /* 16px  nav, filters */
+  --fs-small: .75rem;                                    /* 12px  "Copied", © */
+  --lh: 1.5;
+
+  /* ---- Layout ---- */
+  --container: 1103px;
+  --gutter: clamp(16px, 4vw, 40px);
+  --indent: clamp(0px, 4vw, 62px);   /* hero + intro text inset, as in the mockup */
+  --header-h: 75px;
+
+  /* ---- Shape ---- */
+  --radius-pill: 999px;
+  --radius-lg: 30px;
+  --radius-md: 15px;
+
+  /* ---- Motion ---- */
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --dur: .2s;
+
+  /* ---- Cursors (hotspot = arrow tip / tool tip; standard cursor as fallback) ---- */
+  --cursor-default: url("/assets/coursor-sec.svg?v=2") 5 5, auto;
+  --cursor-pointer: url("/assets/coursor-sec.svg?v=2") 5 5, pointer;
+  --cursor-work: url("/assets/coursor-work-hover-sec.svg?v=2") 12 11, pointer;
+  --cursor-discover: url("/assets/coursor-discover-hover-sec.svg?v=1") 5 28, pointer;
+}

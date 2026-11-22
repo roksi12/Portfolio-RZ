@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Connect – Roksana Żytkowska</title>
+  <meta name="description" content="Get in touch with Roksana Żytkowska, graphic designer and UX/UI designer – send a message about a project, a job or a collaboration.">
+  <meta name="theme-color" content="#72142A">
+  <link rel="icon" href="/assets/fav-icon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&family=Poppins:wght@400;700&display=swap">
+
+  <!-- shared (every page) -->
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <!-- this page -->
+  <link rel="stylesheet" href="/css/home.css">   <!-- "Send a message" uses the homepage .connect__btn hover -->
+  <link rel="stylesheet" href="/css/connect.css">
+
+  <script src="/js/i18n.js" defer></script>
+  <script src="/js/main.js" defer></script>
+  <script src="/js/cursor-trail.js" defer></script>
+  <script src="/js/connect.js" defer></script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ===================== HEADER (copy as-is to every page) ===================== -->
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="site-header__logo" href="/" aria-label="Roksana Żytkowska – home">
+      <img src="/assets/rz-logo-bordo.svg" alt="" width="60" height="47">
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="nav-toggle__bar" aria-hidden="true"></span>
+      <span class="visually-hidden">Menu</span>
+    </button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Main">
+      <ul class="site-nav__list">
+        <li><a class="site-nav__link" href="/">Home</a></li>
+        <li><a class="site-nav__link" href="/#projects">Projects</a></li>
+        <li><a class="site-nav__link" href="/about.html">About</a></li>
+        <li><a class="site-nav__link" href="/connect.html">Connect</a></li>
+      </ul>
+      <div class="copy-email" data-copy-email="roksanazytkowska@gmail.com">
+        <button class="copy-email__btn" type="button">
+          <span class="copy-email__labels">
+            <span class="copy-email__label copy-email__label--default">Copy e-mail</span>
+            <span class="copy-email__label copy-email__label--done" aria-hidden="true">Copied!
+              <svg class="copy-email__check" viewBox="0 0 12 10" fill="none" aria-hidden="true" focusable="false"><path d="M1 5.5 4.2 8.5 11 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </span>
+        </button>
+        <span class="copy-email__status visually-hidden" role="status" aria-live="polite"></span>
+      </div>
+    </nav>
+    <button class="lang-switch" type="button" data-lang-switch data-lang="en" lang="en" aria-label="Change language to Polish" aria-describedby="lang-switch-state">
+      <span class="lang-switch__plate" aria-hidden="true">
+        <span class="lang-switch__mark lang-switch__mark--pl">PL</span>
+        <span class="lang-switch__deck">
+          <span class="lang-switch__flip">
+            <span class="lang-switch__face lang-switch__face--a">
+              <svg class="lang-switch__disc" viewBox="0 0 24 24" focusable="false">
+                <circle class="ls-fill" cx="12" cy="12" r="11"/>
+                <circle class="ls-groove" cx="12" cy="12" r="8.2"/>
+                <circle class="ls-groove" cx="12" cy="12" r="6"/>
+                <circle class="ls-accent ls-solid" cx="12" cy="12" r="3.4"/>
+                <circle class="ls-hole" cx="12" cy="12" r=".9"/>
+              </svg>
+            </span>
+            <span class="lang-switch__face lang-switch__face--b">
+              <svg class="lang-switch__disc" viewBox="0 0 24 24" focusable="false">
+                <circle class="ls-fill" cx="12" cy="12" r="11"/>
+                <circle class="ls-groove" cx="12" cy="12" r="8.2"/>
+                <circle class="ls-groove" cx="12" cy="12" r="6"/>
+                <circle class="ls-accent" cx="12" cy="12" r="3.4"/>
+                <circle class="ls-accent ls-solid" cx="12" cy="12" r=".9"/>
+              </svg>
+            </span>
+          </span>
+          <svg class="lang-switch__arm" viewBox="0 0 10 22" focusable="false">
+            <circle class="ls-fill" cx="7" cy="2.5" r="1.8"/>
+            <path d="M7 4.3 6.5 15 3 19"/>
+          </svg>
+        </span>
+        <span class="lang-switch__mark lang-switch__mark--en">EN</span>
+      </span>
+      <span class="visually-hidden" id="lang-switch-state">Current language: English</span>
+    </button>
+  </div>
+</header>
+<!-- =================== /HEADER =================== -->
+
+<main id="main" class="connect-page">
+
+  <!-- ===================== CONTACT FORM (Figma screens/connect.png) ===================== -->
+  <section class="contact" aria-labelledby="contact-title">
+    <div class="contact__bg" aria-hidden="true">
+      <span class="contact__blob contact__blob--a"></span>
+      <span class="contact__blob contact__blob--b"></span>
+      <span class="contact__blob contact__blob--c"></span>
+    </div>
+
+    <div class="container">
+      <div class="contact__inner">
+        <h1 class="h2 contact__title" id="contact-title">Hey there!</h1>
+
+        <!-- No mail server: on submit connect.js opens the visitor's e-mail app
+             with the message ready to send to roksanazytkowska@gmail.com -->
+        <form class="contact-form" action="mailto:roksanazytkowska@gmail.com" method="post" enctype="text/plain" novalidate data-contact-form>
+          <div class="field">
+            <input class="field__input" type="text" id="cf-name" name="name" autocomplete="name" placeholder=" " required aria-describedby="cf-name-error">
+            <label class="field__label" for="cf-name">Name</label>
+            <p class="field__error" id="cf-name-error" data-error-for="cf-name"></p>
+          </div>
+
+          <div class="field">
+            <input class="field__input" type="email" id="cf-email" name="email" autocomplete="email" placeholder=" " required aria-describedby="cf-email-error">
+            <label class="field__label" for="cf-email">E-mail address</label>
+            <p class="field__error" id="cf-email-error" data-error-for="cf-email"></p>
+          </div>
+
+          <div class="field field--message">
+            <textarea class="field__input field__input--area" id="cf-message" name="message" rows="1" placeholder=" " required aria-describedby="cf-message-error"></textarea>
+            <label class="field__label" for="cf-message">Message</label>
+            <p class="field__error" id="cf-message-error" data-error-for="cf-message"></p>
+          </div>
+
+          <button class="btn connect__btn contact-form__btn" type="submit">
+            Send a message <span class="icon icon--right" aria-hidden="true"></span>
+          </button>
+          <p class="contact-form__status" role="status" aria-live="polite" data-form-status></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== FOOTER (copy as-is to every page) ===================== -->
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <a class="site-footer__logo" href="/" aria-label="Roksana Żytkowska – home">
+      <img src="/assets/rz-logo-light.svg" alt="" width="52" height="40">
+    </a>
+
+    <div class="site-footer__aside">
+      <ul class="site-footer__social" aria-label="Social media">
+        <!-- PLACEHOLDER links -->
+        <li><a class="btn btn--on-dark" href="#" rel="noopener">LinkedIn</a></li>
+        <li><a class="btn btn--on-dark" href="#" rel="noopener">Instagram</a></li>
+      </ul>
+      <a class="footer-mail" href="mailto:roksanazytkowska@gmail.com">
+        roksanazytkowska@gmail.com<span class="footer-mail__arrow" aria-hidden="true">↗</span>
+      </a>
+    </div>
+
+    <p class="site-footer__copy">© 2026 — Roksana Żytkowska</p>
+  </div>
+</footer>
+<!-- =================== /FOOTER =================== -->
+
+</body>
+</html>

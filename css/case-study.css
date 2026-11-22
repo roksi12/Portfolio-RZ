@@ -1,0 +1,250 @@
+/* ==========================================================================
+   Case study pages (/projects/*.html)
+   Measurements from Figma screens/waste-collection-schedule-app.png (1895 px):
+   images 970 px wide, text column 855 px, both centred.
+   ========================================================================== */
+
+/* ---------- Columns ---------- */
+.cs-wide,
+.cs-text,
+.cs-media {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.cs-wide,
+.cs-media { max-width: calc(970px + 2 * var(--gutter)); }
+.cs-text  { max-width: calc(855px + 2 * var(--gutter)); }
+
+.cs-heading { margin-bottom: clamp(16px, 2.2vw, 40px); }
+.cs-prose p + p { margin-top: 1.5em; }
+
+/* ---------- Hero ---------- */
+.cs-hero {
+  display: flex;
+  align-items: center;
+  min-height: clamp(260px, 27.6vw, 523px);
+  padding-block: clamp(40px, 4vw, 72px) clamp(64px, 8.3vw, 158px);
+  background: var(--c-band);
+}
+.cs-hero__tag { font: 400 var(--fs-btn)/1.5 var(--font-ui); }
+.cs-hero__tag .marker { display: inline-block; margin: 0; padding: 6px 16px; }
+.cs-hero__title {
+  margin-top: clamp(16px, 1.4vw, 26px);
+  font: 700 var(--fs-hero)/1.5 var(--font-heading);
+  text-wrap: balance;
+}
+
+/* ---------- Breadcrumbs ---------- */
+.breadcrumbs { margin-top: clamp(20px, 1.8vw, 33px); }
+.breadcrumbs__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--c-bordo);
+  font: 400 var(--fs-ui)/1.5 var(--font-ui);
+}
+.breadcrumbs__list li { display: inline-flex; align-items: center; }
+.breadcrumbs__list li + li::before {
+  content: "";
+  width: 11px;
+  height: 10px;
+  margin-inline: 8px;
+  background-color: currentColor;
+  -webkit-mask: url("/assets/right-arrow.svg") center / contain no-repeat;
+          mask: url("/assets/right-arrow.svg") center / contain no-repeat;
+  opacity: .75;
+}
+.breadcrumbs__list a {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: .2em;
+  transition: text-decoration-color var(--dur) var(--ease);
+}
+@media (hover: hover) {
+  .breadcrumbs__list a:hover { text-decoration-color: currentColor; }
+}
+.breadcrumbs__list [aria-current="page"] { color: var(--c-bordo-muted); }
+
+/* ---------- Overview + facts ---------- */
+.cs-overview {
+  padding-top: clamp(48px, 5.6vw, 107px);
+  padding-bottom: clamp(64px, 8.7vw, 166px);
+}
+.cs-overview__btn { margin-top: clamp(32px, 2.5vw, 48px); }
+
+.cs-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px 56px;
+  margin: clamp(64px, 8.4vw, 160px) 0 0;
+  padding-top: clamp(32px, 2.9vw, 55px);
+  border-top: 1px solid var(--c-rule);
+}
+.cs-facts--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cs-facts dt { margin-bottom: 16px; }
+.cs-facts dd { margin: 0; }
+
+/* ---------- Full-width cover ---------- */
+.cs-cover { background: var(--c-cover); }
+.cs-cover img { width: 100%; max-width: 1895px; height: auto; margin-inline: auto; }
+.cs-cover--cream { background: var(--c-cream); }
+.cs-cover--mint  { background: #C9EBD4; }          /* Plantify: mint backdrop of the wireframe cover */
+.cs-cover--dark  { background: #4A1B2B; }          /* Selectibles: matches the embossed bordeaux paper */
+.cs-cover { position: relative; }
+/* small "AI generated" label on the photo, lined up with the page container */
+.cs-cover__badge {
+  position: absolute;
+  left: max(var(--gutter), calc((100% - var(--container)) / 2));
+  bottom: clamp(16px, 1.6vw, 30px);
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, .45);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, .16);
+  -webkit-backdrop-filter: blur(6px);
+          backdrop-filter: blur(6px);
+  color: rgba(255, 255, 255, .85);
+  font: 300 .875rem/1.2 var(--font-ui);
+}
+.cs-cover__placeholder { max-width: 1895px; margin-inline: auto; aspect-ratio: 1895 / 1186; }
+
+/* ---------- Sections ---------- */
+.cs-section { padding-block: clamp(56px, 5vw, 96px); }
+.cs-section--band { background: var(--c-band); }
+.cs-section--lead { padding-block: clamp(64px, 6vw, 114px) clamp(72px, 6.8vw, 130px); }
+.cs-section--short { padding-block: clamp(48px, 4vw, 76px); }
+.cs-section--flush { padding-top: 0; }
+
+/* ---------- Images (970 × 582) ---------- */
+.cs-media {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 2.1vw, 40px);
+  margin-top: clamp(40px, 4.6vw, 88px);
+}
+.cs-figure img,
+.cs-figure .cs-placeholder {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 970 / 582;
+  border-radius: var(--radius-md);
+}
+.cs-figure img { object-fit: cover; }
+/* 4:3 images (Plantify storyboards: 2000 × 1500 → 970 × 727) */
+.cs-figure--4x3 img { aspect-ratio: 4 / 3; }
+.cs-placeholder { background: var(--c-placeholder); }
+.cs-placeholder--lilac { background: var(--c-lilac); }
+
+/* ---------- Prototype (text + small image) ---------- */
+.cs-prototype { padding-block: clamp(48px, 2.8vw, 52px) clamp(56px, 3.6vw, 68px); }
+.cs-prototype__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 400px);
+  align-items: center;
+  gap: 40px 56px;
+  max-width: calc(947px + 2 * var(--gutter));
+}
+.cs-prototype__btn { margin-top: clamp(32px, 2.9vw, 55px); }
+.cs-prototype__media .cs-placeholder,
+.cs-prototype__media img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 400 / 275;
+  border-radius: var(--radius-md);
+}
+.cs-prototype__media img { object-fit: cover; }
+/* the mockup lines the text up with the other sections (x 520) and lets the image reach further right */
+@media (min-width: 1200px) {
+  .cs-prototype__inner { position: relative; left: clamp(0px, 2.4vw, 46px); }
+}
+
+/* ---------- Next case study ---------- */
+.cs-next { padding-block: clamp(56px, 4vw, 76px) clamp(64px, 4.7vw, 89px); }
+.cs-next__link {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(20px, 2vw, 36px);
+}
+.cs-next__link, .cs-next__link * { cursor: var(--cursor-work); }
+.cs-next__name {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .18em;
+  transition: text-decoration-color var(--dur) var(--ease);
+}
+.cs-next__arrow { transition: transform .3s var(--ease); }
+@media (hover: hover) {
+  .cs-next__link:hover .cs-next__name { text-decoration-color: currentColor; }
+  .cs-next__link:hover .cs-next__arrow { transform: translateX(8px); }
+}
+.cs-next__link:focus-visible { outline-offset: 8px; border-radius: 4px; }
+.cs-next__link:focus-visible .cs-next__name { text-decoration-color: currentColor; }
+
+/* ---------- Side navigation (wide screens) ----------
+   Fixed on the right, outside the 970 px column. Hidden until the visitor
+   reaches the Overview; case-study.js sets .is-visible and aria-current. */
+.cs-toc { display: none; }
+
+@media (min-width: 1360px) {
+  .cs-toc {
+    display: block;
+    position: fixed;
+    top: 50%;
+    right: max(24px, calc((100vw - 1103px) / 2 - 281px));
+    z-index: 50;
+    transform: translateY(-50%);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s var(--ease), visibility 0s .3s;
+  }
+  .cs-toc.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .3s var(--ease);
+  }
+}
+.cs-toc__list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+}
+.cs-toc__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--c-bordo-muted);
+  font: 400 var(--fs-ui)/1.5 var(--font-ui);
+  transition: color var(--dur) var(--ease);
+}
+.cs-toc__link::before {
+  content: "";
+  width: 11px;
+  height: 10px;
+  background-color: currentColor;
+  -webkit-mask: url("/assets/right-arrow.svg") center / contain no-repeat;
+          mask: url("/assets/right-arrow.svg") center / contain no-repeat;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+@media (hover: hover) {
+  .cs-toc__link:hover { color: var(--c-bordo); }
+}
+.cs-toc__link[aria-current="true"] { color: var(--c-bordo); }
+.cs-toc__link[aria-current="true"]::before { opacity: 1; transform: none; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 760px) {
+  .cs-facts, .cs-facts--2 { grid-template-columns: 1fr; }
+  .cs-prototype__inner { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .btn { padding: 0 28px; }
+}

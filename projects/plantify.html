@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plantify – case study · Roksana Żytkowska</title>
+  <meta name="description" content="UX/UI case study: Plantify, a mobile app that helps people diagnose plant problems, remember about care and keep their plants healthy – from research to tested wireframes.">
+  <meta name="theme-color" content="#72142A">
+  <link rel="icon" href="/assets/fav-icon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&family=Poppins:wght@400;700&display=swap">
+
+  <!-- shared (every page) -->
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <!-- case study pages -->
+  <link rel="stylesheet" href="/css/case-study.css">
+
+  <script src="/js/i18n.js" defer></script>
+  <script src="/js/main.js" defer></script>
+  <script src="/js/cursor-trail.js" defer></script>
+  <script src="/js/case-study.js" defer></script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ===================== HEADER (copy as-is to every page) ===================== -->
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="site-header__logo" href="/" aria-label="Roksana Żytkowska – home">
+      <img src="/assets/rz-logo-bordo.svg" alt="" width="60" height="47">
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="nav-toggle__bar" aria-hidden="true"></span>
+      <span class="visually-hidden">Menu</span>
+    </button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Main">
+      <ul class="site-nav__list">
+        <li><a class="site-nav__link" href="/">Home</a></li>
+        <li><a class="site-nav__link" href="/#projects">Projects</a></li>
+        <li><a class="site-nav__link" href="/about.html">About</a></li>
+        <li><a class="site-nav__link" href="/connect.html">Connect</a></li>
+      </ul>
+      <div class="copy-email" data-copy-email="roksanazytkowska@gmail.com">
+        <button class="copy-email__btn" type="button">
+          <span class="copy-email__labels">
+            <span class="copy-email__label copy-email__label--default">Copy e-mail</span>
+            <span class="copy-email__label copy-email__label--done" aria-hidden="true">Copied!
+              <svg class="copy-email__check" viewBox="0 0 12 10" fill="none" aria-hidden="true" focusable="false"><path d="M1 5.5 4.2 8.5 11 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </span>
+        </button>
+        <span class="copy-email__status visually-hidden" role="status" aria-live="polite"></span>
+      </div>
+    </nav>
+    <button class="lang-switch" type="button" data-lang-switch data-lang="en" lang="en" aria-label="Change language to Polish" aria-describedby="lang-switch-state">
+      <span class="lang-switch__plate" aria-hidden="true">
+        <span class="lang-switch__mark lang-switch__mark--pl">PL</span>
+        <span class="lang-switch__deck">
+          <span class="lang-switch__flip">
+            <span class="lang-switch__face lang-switch__face--a">
+              <svg class="lang-switch__disc" viewBox="0 0 24 24" focusable="false">
+                <circle class="ls-fill" cx="12" cy="12" r="11"/>
+                <circle class="ls-groove" cx="12" cy="12" r="8.2"/>
+                <circle class="ls-groove" cx="12" cy="12" r="6"/>
+                <circle class="ls-accent ls-solid" cx="12" cy="12" r="3.4"/>
+                <circle class="ls-hole" cx="12" cy="12" r=".9"/>
+              </svg>
+            </span>
+            <span class="lang-switch__face lang-switch__face--b">
+              <svg class="lang-switch__disc" viewBox="0 0 24 24" focusable="false">
+                <circle class="ls-fill" cx="12" cy="12" r="11"/>
+                <circle class="ls-groove" cx="12" cy="12" r="8.2"/>
+                <circle class="ls-groove" cx="12" cy="12" r="6"/>
+                <circle class="ls-accent" cx="12" cy="12" r="3.4"/>
+                <circle class="ls-accent ls-solid" cx="12" cy="12" r=".9"/>
+              </svg>
+            </span>
+          </span>
+          <svg class="lang-switch__arm" viewBox="0 0 10 22" focusable="false">
+            <circle class="ls-fill" cx="7" cy="2.5" r="1.8"/>
+            <path d="M7 4.3 6.5 15 3 19"/>
+          </svg>
+        </span>
+        <span class="lang-switch__mark lang-switch__mark--en">EN</span>
+      </span>
+      <span class="visually-hidden" id="lang-switch-state">Current language: English</span>
+    </button>
+  </div>
+</header>
+<!-- =================== /HEADER =================== -->
+
+<!-- Side navigation through the case study (wide screens only; case-study.js marks the current part) -->
+<nav class="cs-toc" aria-label="Case study sections" data-toc>
+  <ul class="cs-toc__list">
+    <li><a class="cs-toc__link" href="#overview" data-toc-link="overview">Overview</a></li>
+    <li><a class="cs-toc__link" href="#challenge" data-toc-link="discovery">Discovery</a></li>
+    <li><a class="cs-toc__link" href="#problem" data-toc-link="define">Define</a></li>
+    <li><a class="cs-toc__link" href="#architecture" data-toc-link="ideate">Ideate</a></li>
+    <li><a class="cs-toc__link" href="#wireframes" data-toc-link="wireframes">Wireframes</a></li>
+    <li><a class="cs-toc__link" href="#testing" data-toc-link="testing">Usability testing</a></li>
+  </ul>
+</nav>
+
+<main id="main">
+
+  <!-- ===================== HERO ===================== -->
+  <section class="cs-hero" aria-labelledby="cs-title">
+    <div class="cs-wide">
+      <p class="cs-hero__tag"><span class="marker">Mobile app</span></p>
+      <h1 class="cs-hero__title" id="cs-title">Plantify</h1>
+    </div>
+  </section>
+
+  <nav class="cs-wide breadcrumbs" aria-label="Breadcrumb">
+    <ol class="breadcrumbs__list">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#projects">Projects</a></li>
+      <li><span aria-current="page">Plantify</span></li>
+    </ol>
+  </nav>
+
+  <!-- ===================== OVERVIEW ===================== -->
+  <section class="cs-overview" id="overview" data-toc-section="overview" aria-labelledby="overview-title">
+    <div class="cs-wide">
+      <h2 class="h2 cs-heading" id="overview-title">Overview</h2>
+      <p class="h3">A mobile app that helps people diagnose plant problems, remember about care and learn how to keep their plants healthy.</p>
+      <a class="btn cs-overview__btn" href="#wireframes" data-scroll-to="wireframes">
+        Go to wireframes <span class="icon icon--down" aria-hidden="true"></span>
+      </a>
+
+      <dl class="cs-facts">
+        <div class="cs-facts__item">
+          <dt class="h3">My role</dt>
+          <dd class="h5">User research</dd>
+          <dd class="h5">UX/UI design</dd>
+        </div>
+        <div class="cs-facts__item">
+          <dt class="h3">Status</dt>
+          <dd class="h5">In progress. Final UI coming soon.</dd>
+        </div>
+        <div class="cs-facts__item">
+          <dt class="h3">Tools</dt>
+          <dd class="h5">Figma</dd>
+          <dd class="h5">Adobe Illustrator</dd>
+          <dd class="h5">AI</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <figure class="cs-cover cs-cover--mint" data-toc-section="overview">
+    <img src="/assets/case%20study/plantify/hero-image.png"
+         alt="Three wireframe screens of Plantify: the home screen with today’s care tasks, plant identification and the care calendar"
+         width="1895" height="1209" fetchpriority="high" decoding="async">
+  </figure>
+
+  <!-- ===================== DISCOVERY ===================== -->
+  <section class="cs-section cs-section--band cs-section--lead" id="challenge" data-toc-section="discovery" aria-labelledby="challenge-title">
+    <div class="cs-text">
+      <h2 class="h2 cs-heading" id="challenge-title">The Challenge</h2>
+      <p class="h3">Plant owners struggle to find out what’s wrong with their plants. Information online is scattered and contradictory, the same symptoms can have different causes, and people often lose motivation or simply forget about care. As a result, plants get thrown away instead of saved.</p>
+    </div>
+  </section>
+
+  <section class="cs-section" id="research" data-toc-section="discovery" aria-labelledby="research-title">
+    <div class="cs-text">
+      <h2 class="h2 cs-heading" id="research-title">Research</h2>
+      <p class="h5">I ran user interviews with participants aged 16–62, from small flats to houses, in cities and villages, including people with disabilities. I wanted to understand how people care for their plants, where they look for help and what frustrates them when something goes wrong.</p>
+    </div>
+    <div class="cs-media">
+      <figure class="cs-figure">
+        <img src="/assets/case%20study/plantify/empathy-maps.png"
+             alt="Empathy maps for Ursula, Chester and Mary, each split into says, thinks, does and feels"
+             width="970" height="582" loading="lazy" decoding="async">
+      </figure>
+    </div>
+  </section>
+
+  <section class="cs-section cs-section--band cs-section--short" id="insights" data-toc-section="discovery" aria-labelledby="insights-title">
+    <div class="cs-text">
+      <h2 class="h2 cs-heading" id="insights-title">Key Insights</h2>
+      <p class="h5">People don’t trust what they find, because the same symptom can mean overwatering, light or pests. Pet owners need to know whether a plant and its treatment are safe for animals. Beginners lose motivation quickly and forget to water. Less tech-savvy users want simple language and real people to ask.</p>
+    </div>
+  </section>
+
+  <section class="cs-section" id="personas" data-toc-section="discovery" aria-labelledby="personas-title">
+    <div class="cs-text">
+      <h2 class="h2 cs-heading" id="personas-title">Personas</h2>
+      <p class="h5">Three personas represent the main user groups: Ursula, an experienced owner of exotic plants and two cats; Chester, a busy student who forgets to water; and Mary, a skilled gardener who isn’t tech-savvy.</p>
+    </div>
+    <div class="cs-media">
+      <figure class="cs-figure">
+        <img src="/assets/case%20study/plantify/personas.png"
+             alt="Three persona cards – Ursula Hill, 32, English teacher; Chester Space, 25, student; Mary Forest, 56, cleaner – each with a quote, a short bio, goals and frustrations"
+             width="970" height="582" loading="lazy" decoding="async">
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== DEFINE ===================== -->
+  <section class="cs-section cs-section--band" id="problem" data-toc-section="define" aria-labelledby="problem-title">
+    <div class="cs-text">
+      <h2 class="h2 cs-heading" id="problem-title">Defining the Problem</h2>
+      <p class="h5">For each persona I defined a problem and a hypothesis. If users like Ursula get verified information and a guided way to match symptoms with causes, they will diagnose problems more accurately. If busy users like Chester get timely reminders, they will care for plants more consistently. If the experience stays simple, users like Mary will gradually build their skills.</p>
+    </div>
+    <div class="cs-media">
+      <figure class="cs-figure">
+        <img src="/assets/case%20study/plantify/defining-the-problem.png"
+             alt="Problem statements and hypothesis statements for Ursula, Chester and Mary"
+             width="970" height="582" loading="lazy" decoding="async">
+      </figure>
+    </div>
+  </section>
+
+  <section class="cs-section" id="journey" data-toc-section="define" aria-labelledby="journey-title">
+    <div class="cs-text">
+      <h2 class="h2 cs-heading" id="journey-title">User Journey</h2>
+      <p class="h5">Mapping Ursula’s journey of saving a plant with yellow leaves showed where the experience breaks: she feels sceptical when verifying a diagnosis and careful about her cats’ safety. This led to ideas like a clear confidence score, a visual healthy-vs-unhealthy comparison and a “pet-safe” badge on treatments.</p>
+    </div>
+    <div class="cs-media">
+      <figure class="cs-figure">
+        <img src="/assets/case%20study/plantify/user-journey-map.png"
+             alt="User journey map for Ursula Hill: four actions from taking a picture of the plant to taking action, with her feelings and improvement opportunities for each step"
+             width="970" height="582" loading="lazy" decoding="async">
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== IDEATE ===================== -->
+  <section class="cs-section cs-section--flush" id="architecture" data-toc-section="ideate" aria-labelledby="architecture-title">
+    <div class="cs-text">
+      <h2 class="h2 cs-heading" id="architecture-title">Information Architecture &amp; User Flows</h2>
+      <p class="h5">I structured the app around five main areas in the navigation bar: Diagnose, My Plants, Care Calendar, Community and Learn. Then I mapped two key flows: diagnosing a sick plant and adding a new plant with a care reminder.</p>
+    </div>
+    <div class="cs-media">
+      <figure class="cs-figure">
+        <img src="/assets/case%20study/plantify/sitemaps.png"
+             alt="Sitemaps of the homepage, the dashboard and the navigation bar"
+             width="970" height="582" loading="lazy" decoding="async">
+      </figure>
+      <figure class="cs-figure">
+        <img src="/assets/case%20study/plantify/user-flow.png"
+             alt="Two user flows: diagnosing a sick plant with the camera, and adding a new plant with a care reminder in the calendar"
+             width="970" height="582" loading="lazy" decoding="async">
+      </figure>
+    </div>
+  </section>
+
+  <section class="cs-section cs-section--flush" id="sketches" data-toc-section="ideate" aria-labelledby="sketches-title">
+    <div class="cs-text">
+      <h2 class="h2 cs-heading" id="sketches-title">Storyboards &amp; Sketches</h2>
+      <p class="h5">Storyboards helped me picture the app in real situations. Then I sketched several versions of the key screens on paper before moving to digital wireframes.</p>
+    </div>
+    <div class="cs-media">
+      <figure class="cs-figure cs-figure--4x3">
+        <img src="/assets/case%20study/plantify/story-boards-sketches.png"
+             alt="Hand-drawn big-picture storyboard in six frames: Chester forgets to water his plant, sets a reminder in the app, waters it and is happy the plant is no longer dry"
+             width="970" height="727" loading="lazy" decoding="async">
+      </figure>
+      <figure class="cs-figure cs-figure--4x3">
+        <img src="/assets/case%20study/plantify/story-boards-sketches-1.png"
+             alt="Paper sketches of several versions of the home screen, the care calendar and the treatment screens"
+             width="970" height="727" loading="lazy" decoding="async">
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== WIREFRAMES ===================== -->
+  <section class="cs-section cs-section--flush" id="wireframes" data-toc-section="wireframes" aria-labelledby="wireframes-title">
+    <div class="cs-text">
+      <h2 class="h2 cs-heading" id="wireframes-title">Wireframes</h2>
+      <p class="h5">In the digital wireframes I designed three main flows: diagnosing a plant with up to three photos, identifying an unknown plant, and adding a plant to a room in My Plants, plus the care calendar.</p>
+    </div>
+    <div class="cs-media">
+      <figure class="cs-figure">
+        <img src="/assets/case%20study/plantify/wireframes1.png"
+             alt="Wireframes of the home screen, the diagnose flow with photos, the diagnosis and treatment plan, the care calendar and My Plants"
+             width="970" height="582" loading="lazy" decoding="async">
+      </figure>
+      <figure class="cs-figure">
+        <img src="/assets/case%20study/plantify/wireframes2.png"
+             alt="Wireframes of identifying an unknown plant and adding a plant to a room in My Plants"
+             width="970" height="582" loading="lazy" decoding="async">
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== TESTING ===================== -->
+  <section class="cs-section cs-section--flush" id="testing" data-toc-section="testing" aria-labelledby="testing-title">
+    <div class="cs-text">
+      <h2 class="h2 cs-heading" id="testing-title">Usability Testing</h2>
+      <p class="h5">I tested the wireframes with 6 participants on four tasks: checking a sick plant, adding a care plan to the calendar, adding a new plant and checking a plant in a shop.</p>
+    </div>
+    <div class="cs-media">
+      <figure class="cs-figure">
+        <img src="/assets/case%20study/plantify/usability%20testing.png"
+             alt="Four usability test tasks on sticky notes: check what is wrong with your plant, add a treatment plan to the calendar, add a new plant to My Plants, check a plant you found in a shop"
+             width="970" height="582" loading="lazy" decoding="async">
+      </figure>
+    </div>
+  </section>
+
+  <section class="cs-section cs-section--flush" id="affinity" data-toc-section="testing" aria-labelledby="affinity-title">
+    <div class="cs-text">
+      <h2 class="h2 cs-heading" id="affinity-title">Affinity Mapping</h2>
+      <p class="h5">I wrote every observation on a sticky note and grouped them into nine themes. For each theme I made a decision and gave it a priority: Now, Later or To check.</p>
+    </div>
+    <div class="cs-media">
+      <figure class="cs-figure">
+        <img src="/assets/case%20study/plantify/affinity-map1.png"
+             alt="Affinity map of colour-coded sticky notes (problem, works, a single note, decision) grouped into themes such as adding a plant, calendar and reminders, treatment plan and indicators"
+             width="970" height="582" loading="lazy" decoding="async">
+      </figure>
+      <figure class="cs-figure">
+        <img src="/assets/case%20study/plantify/affinity-map2.png"
+             alt="Close-up of the “Diagnose and Identify names” theme: participant notes and the decision to rename both options and add short descriptions"
+             width="970" height="582" loading="lazy" decoding="async">
+      </figure>
+    </div>
+  </section>
+
+  <section class="cs-section cs-section--flush" id="findings" data-toc-section="testing" aria-labelledby="findings-title">
+    <div class="cs-text">
+      <h2 class="h2 cs-heading" id="findings-title">Key Findings &amp; Decisions</h2>
+      <p class="h5">The biggest problems were naming and visibility. Users didn’t know the difference between “Diagnose” and “Identify”, missed the button for adding a plant and confused the plant’s condition with the diagnosis confidence. Taking three photos and the Identify flow worked well.</p>
+    </div>
+    <div class="cs-media">
+      <figure class="cs-figure">
+        <img src="/assets/case%20study/plantify/keys.png"
+             alt="Table of seven findings with the participants who reported them and the decisions, for example renaming “Diagnose” and “Identify” and making the add-plant button visible at the top"
+             width="970" height="582" loading="lazy" decoding="async">
+      </figure>
+    </div>
+  </section>
+
+  <section class="cs-section cs-section--flush" id="iteration" data-toc-section="testing" aria-labelledby="iteration-title">
+    <div class="cs-text">
+      <h2 class="h2 cs-heading" id="iteration-title">Next Iteration</h2>
+      <p class="h5">Some ideas need more evidence before I build them. Three participants asked for a plant history, so a plant journal with dated photos is the first feature after the fixes. Postponing watering is planned for later. Whether Community belongs in the navigation bar still needs another round of testing.</p>
+    </div>
+  </section>
+
+  <!-- ===================== NEXT CASE STUDY ===================== -->
+  <section class="cs-section cs-next" aria-labelledby="next-title">
+    <div class="cs-text">
+      <h2 class="h2 cs-heading" id="next-title">Next Case Study</h2>
+      <a class="cs-next__link" href="/projects/waste-collection-schedule.html">
+        <span class="h3 cs-next__name">Waste Collection Schedule</span>
+        <span class="icon icon--arrow cs-next__arrow" aria-hidden="true"></span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== FOOTER (copy as-is to every page) ===================== -->
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <a class="site-footer__logo" href="/" aria-label="Roksana Żytkowska – home">
+      <img src="/assets/rz-logo-light.svg" alt="" width="52" height="40">
+    </a>
+
+    <div class="site-footer__aside">
+      <ul class="site-footer__social" aria-label="Social media">
+        <!-- PLACEHOLDER links -->
+        <li><a class="btn btn--on-dark" href="#" rel="noopener">LinkedIn</a></li>
+        <li><a class="btn btn--on-dark" href="#" rel="noopener">Instagram</a></li>
+      </ul>
+      <a class="footer-mail" href="mailto:roksanazytkowska@gmail.com">
+        roksanazytkowska@gmail.com<span class="footer-mail__arrow" aria-hidden="true">↗</span>
+      </a>
+    </div>
+
+    <p class="site-footer__copy">© 2026 — Roksana Żytkowska</p>
+  </div>
+</footer>
+<!-- =================== /FOOTER =================== -->
+
+</body>
+</html>

@@ -1,0 +1,154 @@
+/* ==========================================================================
+   Hero – animated butterfly (from homepage/hero-butterfly.txt)
+   Original animation code is kept as-is; additions are marked "SITE:".
+   ========================================================================== */
+
+/* SITE: hero height. Desktop = original 1895 × 523 ratio; on narrow screens a
+   minimum height keeps the title readable. The butterfly layer is sized from the
+   same height, so its 523-unit scroll compensation stays exact. */
+:root { --hero-h: max(min(100vw, 1895px) * 523 / 1895, 380px); }
+
+/* ===== Scena: baner + motyl, który może wylecieć nad treść strony ===== */
+.butterfly-stage {
+  position: relative;
+  z-index: 10;                 /* motyl leci nad treścią pod banerem */
+  width: 100%;                 /* pełna szerokość okna – prawa krawędź sceny = prawa krawędź przeglądarki */
+  overflow-x: clip;            /* druga połowa motyla schowana za krawędzią, bez poziomego paska */
+  overflow-y: visible;
+}
+/* warstwa motyla: szerokość banera, ale 3× wyższa – miejsce na lot nad treścią;
+   przyklejona do prawej krawędzi przeglądarki (także na ekranach szerszych niż 1895px) */
+.butterfly-stage > .bfly {
+  position: absolute; top: 0; right: 0;
+  width: min(100%, 1895px); height: auto;
+  aspect-ratio: 1895 / 1569;
+  overflow: visible;
+  pointer-events: none;        /* linki i tekst pod motylem dalej klikalne */
+  will-change: transform;
+}
+
+/* ===== Baner 1895 × 523 (skaluje się proporcjonalnie, max 1895px) ===== */
+.butterfly-banner {
+  position: relative;
+  width: 100%;
+  max-width: 1895px;
+  margin: 0 auto;
+  aspect-ratio: 1895 / 523;
+  overflow: hidden;
+  isolation: isolate;
+
+  /* tło podąża za wskaźnikiem: --mx/--my (0–100%) i --px/--py (-1…1) ustawia skrypt */
+  --mx: 50%; --my: 55%; --px: 0; --py: 0;
+  transition: --mx 1.4s cubic-bezier(.2,.7,.2,1), --my 1.4s cubic-bezier(.2,.7,.2,1),
+              --px 1.4s cubic-bezier(.2,.7,.2,1), --py 1.4s cubic-bezier(.2,.7,.2,1);
+  background:
+    radial-gradient(38% 95% at var(--mx) var(--my), #c6def3 0%, #d4e3f3 35%, rgba(219,229,242,0) 75%),
+    radial-gradient(40% 90% at calc(100% - var(--mx)) calc(100% - var(--my)), rgba(222,206,240,.75) 0%, rgba(222,206,240,0) 70%),
+    linear-gradient(90deg, #ece6ef, #e3e6f1 50%, #ebe6ef);
+}
+@property --mx { syntax: '<percentage>'; inherits: true; initial-value: 50%; }
+@property --my { syntax: '<percentage>'; inherits: true; initial-value: 55%; }
+@property --px { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --py { syntax: '<number>'; inherits: true; initial-value: 0; }
+
+/* SITE: fixed hero height (see --hero-h) */
+.butterfly-banner { aspect-ratio: auto; height: var(--hero-h); }
+.butterfly-stage > .bfly { width: calc(var(--hero-h) * 1895 / 523); max-width: none; }
+
+/* Każda warstwa to osobny element – przesuwa ją karta graficzna,
+   więc rozmyte tło nie jest przerysowywane w każdej klatce. */
+.butterfly-banner .layer { position: absolute; inset: 0; width: 100%; height: 100%; display: block; max-width: none; }
+.butterfly-banner .layer, .butterfly-banner .parallax { will-change: transform; }
+.butterfly-banner .parallax { position: absolute; inset: 0; }
+
+/* smuga i błękitna mgiełka lekko przesuwają się za wskaźnikiem (paralaksa) */
+.parallax-far  { transform: translate3d(calc(var(--px) * 22px), calc(var(--py) * 10px), 0); }
+.parallax-near { transform: translate3d(calc(var(--px) * 48px), calc(var(--py) * 16px), 0); }
+
+/* --- tło: falująca niebiesko-fioletowa smuga --- */
+.ribbon-a, .ribbon-b, .ribbon-c { transform-origin: 51.5% 50%; }
+.ribbon-a { animation: ribbonA 14s  ease-in-out infinite alternate; }
+.ribbon-b { animation: ribbonB 19s ease-in-out infinite alternate; }
+.ribbon-c { animation: ribbonC 16s ease-in-out infinite alternate; }
+/* smugi powoli „rozpływają się”: rozszerzają, falują i bledną, potem zbierają z powrotem */
+@keyframes ribbonA {
+  0%   { transform: translate3d(-30px,0,0) skewX(4deg)  scaleX(.9);  opacity: .85; }
+  50%  { transform: translate3d(15px,0,0)  skewX(-5deg) scaleX(1.25); opacity: .6; }
+  100% { transform: translate3d(35px,0,0)  skewX(3deg)  scaleX(1);   opacity: .95; }
+}
+@keyframes ribbonB {
+  0%   { transform: translate3d(20px,0,0)     skewX(-6deg); opacity: .75; }
+  50%  { transform: translate3d(-14px,12px,0) skewX(5deg);  opacity: 1; }
+  100% { transform: translate3d(8px,-10px,0)  skewX(-2deg); opacity: .8; }
+}
+@keyframes ribbonC {
+  0%   { transform: translate3d(0,0,0)     scale(1);    opacity: .55; }
+  100% { transform: translate3d(0,-30px,0) scale(1.15); opacity: .9; }
+}
+
+/* --- motyl --- */
+.bfly { animation: float 6s cubic-bezier(.37,0,.63,1) infinite alternate; }
+@keyframes float {
+  from { transform: translate3d(0, 4px, 0); }
+  to   { transform: translate3d(0, -6px, 0); }
+}
+.bfly * { transform-box: view-box; transform-origin: 0 0; }  /* (0,0) = środek ciała */
+
+/* Trzepot: jeden płynny ruch tam i z powrotem (sinusoidalne wygładzenie),
+   tylne skrzydła lekko spóźnione za przednimi – jak u prawdziwego motyla. */
+:root { --flap: 2.2s; }
+.fore { animation: foreFlap var(--flap) cubic-bezier(.37,0,.63,1) infinite alternate; }
+.hind { animation: hindFlap var(--flap) cubic-bezier(.37,0,.63,1) infinite alternate;
+        animation-delay: calc(var(--flap) * -1.94); } /* = opóźnienie ~0,13 s względem przednich */
+@keyframes foreFlap {
+  from { transform: rotate(2deg)   scale(1.02, 1); }
+  to   { transform: rotate(-21deg) scale(.6, 1.08); }
+}
+@keyframes hindFlap {
+  from { transform: rotate(0deg)  scale(1.02, 1); }
+  to   { transform: rotate(-4deg) scale(.56, 1.02); }
+}
+
+/* --- ziarno filmowe: gotowa bitmapa szumu, tylko przesuwana --- */
+.grain {
+  position: absolute; inset: -80px;
+  pointer-events: none;
+  opacity: .09;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain .6s steps(3) infinite;
+}
+@keyframes grain {
+  0%   { transform: translate3d(0,0,0); }
+  33%  { transform: translate3d(-37px,23px,0); }
+  66%  { transform: translate3d(29px,-41px,0); }
+  100% { transform: translate3d(0,0,0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .butterfly-banner * { animation-duration: 12s !important; }
+  .grain { animation: none; }
+  /* SITE: the butterfly layer lives outside the banner – calm it down too */
+  .bfly { animation: none; }
+  .bfly .fore, .bfly .hind { animation-duration: 12s !important; }
+}
+
+/* ==========================================================================
+   SITE: title overlaid on the hero
+   ========================================================================== */
+.hero-title {
+  position: absolute;
+  inset: 0;
+  z-index: 2;                  /* above the butterfly, like in the mockup */
+  display: flex;
+  align-items: center;
+  height: var(--hero-h);
+  pointer-events: none;
+}
+.hero-title__text {
+  padding-left: var(--indent);
+  font: 400 var(--fs-hero)/1.5 var(--font-heading);
+  color: var(--c-text);
+}
+.hero-title__name { display: block; }
+.hero-title__role { display: block; font-weight: 700; }
