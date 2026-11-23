@@ -384,9 +384,9 @@
       'Moje zainteresowanie UX/UI wynika z tej twórczej potrzeby i chęci bycia częścią zespołu, który ceni',
     'research and human-centered design.': 'badania i projektowanie skoncentrowane na człowieku.',
     'Ready to fly': 'Gotowa do lotu',
-    'I want to join a team where I can grow my skills to build digital products that are both':
-      'Chcę dołączyć do zespołu, w którym będę rozwijać swoje umiejętności i tworzyć produkty cyfrowe, które są zarazem',
-    'beautiful and functional.': 'piękne i funkcjonalne.',
+    'I’m open to both': 'Jestem otwarta na',
+    'a permanent team role and freelance projects': 'stałą współpracę w zespole i na projekty na zlecenie,',
+    'that help me grow my skills.': 'przy których będę rozwijać swoje umiejętności.',
     'I\'m enthusiastic about sharpening my current skills and learning new ones – to create products that improve processes and':
       'Z entuzjazmem doskonalę to, co już umiem, i uczę się nowych rzeczy – żeby tworzyć produkty, które usprawniają procesy i',
     'deliver amazing experiences for people.': 'dają ludziom wspaniałe doświadczenia.',
